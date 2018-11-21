@@ -16,7 +16,7 @@ let appData = {
 /*for (let i = 0; i < 2; i++) {
 	let key = prompt('Введите обязательную статью расходов в этом месяце'),
 	value = prompt('Во сколько обойдется?');
-		// Если строка (value) не является в точности числом, то результат будет NaN
+		// Если строка (value) не является в точности числом, то результат перевода в число будет NaN
 		// Функция isFinite(n) преобразует аргумент к числу и возвращает true, если это не NaN/Infinity
 	if (key != null && key != '' && value != null && value != '' && isFinite(value)) {
 		appData.expense[key] = value;
