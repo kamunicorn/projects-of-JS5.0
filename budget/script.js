@@ -29,7 +29,7 @@ let appData = {
         budgetOneDay = Math.round(appData.budget / 30);
         alert('Бюджет на 1 день: ' + budgetOneDay);
     },
-    detectLevel: function() {
+    /*detectLevel: function() {
         if (budgetOneDay < 300) {
             alert('Низкий уровень достатка :-(');
         } else if (budgetOneDay < 1000) {
@@ -38,6 +38,22 @@ let appData = {
             alert('Высокий уровень достатка ^_^');
         } else {
             alert('Неопознанный уровень достатка О_о')
+        }
+    },*/
+    detectLevel: function() {
+        switch (true) {
+            case (budgetOneDay < 300):
+                alert('Низкий уровень достатка :-(');
+                break;
+            case (budgetOneDay < 1000):
+                alert('Средний уровень достатка :-)');
+                break;
+            case (budgetOneDay >= 1000):
+                alert('Высокий уровень достатка ^_^');
+                break;
+            default:
+                alert('Неопознанный уровень достатка О_о');
+                break;
         }
     },
     chooseOptExpenses: function() {
