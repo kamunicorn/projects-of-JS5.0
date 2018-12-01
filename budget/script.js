@@ -1,3 +1,7 @@
+function isNumeric(n) {
+  return !isNaN(parseFloat(n)) && isFinite(n);
+}
+
 let budgetOneDay,
     money = +prompt('Ваш бюджет на месяц?', '');
     time = prompt('Введите дату в формате YYYY-MM-DD', '');
@@ -18,7 +22,7 @@ let appData = {
         while (Object.keys(appData.expense).length < 2) {
             let key = prompt('Введите обязательную статью расходов в этом месяце', ''),
             value = prompt('Во сколько обойдется?', '');
-            if (key != null && key != '' && value != null && value != '' && isFinite(value)) {
+            if (key != null && key != '' && isNumeric(value)) {
                 appData.expense[key] = +value;
             } else {
                 alert('Введена неверная пара ключ - значение:  "' + key + '" = "' + value + '"');
