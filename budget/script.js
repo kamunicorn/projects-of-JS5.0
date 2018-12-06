@@ -112,25 +112,6 @@ for (key in appData) {
     console.log(key + ' : ' + appData[key]);
 }
 
-
-/*function detectLevel() {
-    switch (budgetOneDay) {
-        case (budgetOneDay < 300):
-            alert('Низкий уровень достатка :-(');
-            break;
-        case (budgetOneDay < 1000):
-            alert('Средний уровень достатка :-)');
-            break;
-        case 1000: 
-        case (budgetOneDay > 1000):
-            alert('Высокий уровень достатка ^_^');
-            break;
-        default:
-            alert('Неопознанный уровень достатка О_о')
-            break;
-    }
-}*/
-
 /*for (let i = 0; i < 2; i++) {
     let key = prompt('Введите обязательную статью расходов в этом месяце'),
     value = prompt('Во сколько обойдется?');
