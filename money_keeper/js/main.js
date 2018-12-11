@@ -1,30 +1,32 @@
+"use strict"; //
+
 let expensesInps = document.getElementsByClassName('expenses-item'),
-	optExpensesInps = document.querySelectorAll('.optionalexpenses-item'),
-	incomeInp = document.querySelector('#income'),
-	savingsChekbox = document.querySelector('#savings'),
-	savingsSumInp = document.querySelector('#sum'),
-	savingsPercentInp = document.querySelector('#percent'),
+    optExpensesInps = document.querySelectorAll('.optionalexpenses-item'),
+    incomeInp = document.querySelector('#income'),
+    savingsChekbox = document.querySelector('#savings'),
+    savingsSumInp = document.querySelector('#sum'),
+    savingsPercentInp = document.querySelector('#percent'),
 
-		// Получение кнопок
-	expensesBtn = document.getElementsByTagName('button')[0],	// Кнопка Утвердить обязательные расходы
-	optExpensesBtn = document.getElementsByTagName('button')[1],	// Кнопка Утвердить необязательные расходы
-	countBudgetBtn = document.getElementsByTagName('button')[2],	// Кнопка Рассчитать (дневной бюджет)
-	startBtn = document.getElementById('start'),	// Кнопка Начать расчет
+        // Получение кнопок
+    expensesBtn = document.getElementsByTagName('button')[0],   // Кнопка Утвердить обязательные расходы
+    optExpensesBtn = document.getElementsByTagName('button')[1],    // Кнопка Утвердить необязательные расходы
+    countBudgetBtn = document.getElementsByTagName('button')[2],    // Кнопка Рассчитать (дневной бюджет)
+    startBtn = document.getElementById('start'),    // Кнопка Начать расчет
 
-		// Указанная дата - год, месяц, день (внизу справа)
-	yearValue = document.querySelector('.year-value');
-	monthValue = document.querySelector('.month-value');
-	dayValue = document.querySelector('.day-value'),
+        // Указанная дата - год, месяц, день (внизу справа)
+    yearValue = document.querySelector('.year-value'),
+    monthValue = document.querySelector('.month-value'),
+    dayValue = document.querySelector('.day-value'),
 
-		// Получение дивов, в которые выводятся результаты подсчетов
-	budgetResult = document.getElementsByClassName('budget-value')[0],
-	dayBudgetResult = document.getElementsByClassName('daybudget-value')[0],
-	levelResult = document.getElementsByClassName('level-value')[0],
-	expensesResult = document.getElementsByClassName('expenses-value')[0],
-	optExpensesResult = document.getElementsByClassName('optionalexpenses-value')[0],
-	incomeResult = document.getElementsByClassName('income-value')[0],
-	monthSavingsResult = document.getElementsByClassName('monthsavings-value')[0],
-	yearSavingsResult = document.getElementsByClassName('yearsavings-value')[0],
+        // Получение дивов, в которые выводятся результаты подсчетов
+    budgetResult = document.getElementsByClassName('budget-value')[0],
+    dayBudgetResult = document.getElementsByClassName('daybudget-value')[0],
+    levelResult = document.getElementsByClassName('level-value')[0],
+    expensesResult = document.getElementsByClassName('expenses-value')[0],
+    optExpensesResult = document.getElementsByClassName('optionalexpenses-value')[0],
+    incomeResult = document.getElementsByClassName('income-value')[0],
+    monthSavingsResult = document.getElementsByClassName('monthsavings-value')[0],
+    yearSavingsResult = document.getElementsByClassName('yearsavings-value')[0],
 
     // allDataButtons = document.querySelectorAll('.data button'),
     allDataInputs = document.querySelectorAll('.data input');
@@ -64,12 +66,13 @@ for (let i = 0; i < expensesInps.length; i++) {
             if (isEmpty(expenseKey)) {
                 expensesDataCompleteness[i] = false;
                 // alert('Наименование (ключ) обязательных расходов не может быть пустым.');
-            } else if (!isContainOnlyLetters(expenseKey)) {
-                alert('Наименование (ключ = "' + expenseKey + '") обязательных расходов должен содержать только русские буквы.');
-                expensesDataCompleteness[i] = false;
-            } else {
-                expensesDataCompleteness[i] = true;
+            } else if (!isContainOnlyRussianLetters(expenseKey)) {
+                // alert('Наименование (ключ = "' + expenseKey + '") обязательных расходов должен содержать только русские буквы.');
+                event.target.value = expenseKey = removeNotRussianLetters(expenseKey).trim();
             }
+
+            expensesDataCompleteness[i] = (isEmpty(expenseKey)) ? false : true;
+            
             if (verifyDataCompleteness(expensesDataCompleteness, expensesInps.length)) {
                 expensesBtn.removeAttribute('disabled');
             } else {
@@ -80,12 +83,11 @@ for (let i = 0; i < expensesInps.length; i++) {
     } else {    // нечетные инпуты - значение расходов
         expensesInps[i].addEventListener('input', function() {
             let expenseValue = event.target.value;
-            if (!isNumeric(expenseValue)) {
-                alert('Цена (значение) обязательных расходов "' + expenseValue + '" должно быть числом.');
-                expensesDataCompleteness[i] = false;
-            } else {
-                expensesDataCompleteness[i] = true;
+            if (!isContainOnlyDigits(expenseValue)) {
+                // alert('Цена (значение) обязательных расходов "' + expenseValue + '" должно быть числом.');
+                event.target.value = expenseValue = removeNotDigits(expenseValue);
             }
+            expensesDataCompleteness[i] = (isEmpty(expenseValue)) ? false : true;
             if (verifyDataCompleteness(expensesDataCompleteness, expensesInps.length)) {
                 expensesBtn.removeAttribute('disabled');
             } else {
@@ -103,12 +105,12 @@ for (let i = 0; i < optExpensesInps.length; i++) {
         if (isEmpty(optExpenseKey)) {
             optExpensesDataCompleteness[i] = false;
             // alert('Наименование (ключ) обязательных расходов не может быть пустым.');
-        } else if (!isContainOnlyLetters(optExpenseKey)) {
-            alert('Наименование (ключ = "' + optExpenseKey + '") необязательных расходов должен содержать только русские буквы.');
-            optExpensesDataCompleteness[i] = false;
-        } else {
-            optExpensesDataCompleteness[i] = true;
+        } else if (!isContainOnlyRussianLetters(optExpenseKey)) {
+            // alert('Наименование (ключ = "' + optExpenseKey + '") необязательных расходов должен содержать только русские буквы.');
+            event.target.value = optExpenseKey = removeNotRussianLetters(optExpenseKey).trim();
         }
+        optExpensesDataCompleteness[i] = (isEmpty(optExpenseKey)) ? false : true;
+
         if (verifyDataCompleteness(optExpensesDataCompleteness, optExpensesInps.length)) {
             optExpensesBtn.removeAttribute('disabled');
         } else {
@@ -126,8 +128,6 @@ document.addEventListener('DOMContentLoaded', function() {
     allDataInputs.forEach(function(inp) {
         inp.setAttribute('disabled', true);
     });
-    
-
 
     expensesBtn.setAttribute('disabled', true);
     optExpensesBtn.setAttribute('disabled', true);
@@ -198,7 +198,7 @@ expensesBtn.addEventListener('click', function () {
             expenseValue = expensesInps[i+1].value;
         if (isEmpty(expenseKey)) {
             alert('Наименование (ключ) обязательных расходов не может быть пустым.');
-        } else if (!isContainOnlyLetters(expenseKey)) {
+        } else if (!isContainOnlyRussianLetters(expenseKey)) {
             alert('Наименование (ключ) обязательных расходов "' + expenseKey + '" должен содержать только русские буквы.');
         } else if (!isNumeric(expenseValue)) {
             alert('Цена (значение) обязательных расходов "' + expenseValue + '" должно быть числом.');
@@ -229,8 +229,9 @@ optExpensesBtn.addEventListener('click', function() {
         answer = item.value;
         if (isEmpty(answer)) {
             // ничего (потому что это необязательный расход)
-        } else if (!isContainOnlyLetters(answer)) {
-            alert('Значение необязательных расходов должно содержать только русские буквы.');
+        } else if (!isContainOnlyRussianLetters(answer)) {
+            // alert('Значение необязательных расходов должно содержать только русские буквы.');
+            item.value = removeNotRussianLetters(answer, true).trim();
         }
         else {
             appData.optExpense[i] = answer;
@@ -250,12 +251,13 @@ incomeInp.addEventListener('input', function() {
     if (isEmpty(items)) {
         // ничего (потому что это необязательный доход)
         appData.income = [];
-    } else if (!isContainOnlyLetters(items, true)) { // не только буквы, с учетом запятой
-        alert('Строка должна состоять только из русских букв, с разделителем из запятой (пробел допускается).');
-        incomeInp.value = appData.income.join(',');
+    } else if (!isContainOnlyRussianLetters(items, true)) { // не только буквы, с учетом запятой
+        // alert('Строка должна состоять только из русских букв, с разделителем из запятой (пробел допускается).');
+        incomeInp.value = removeNotRussianLetters(items, true).trim();
         
     } else {
         appData.income = items.split(',');
+        // incomeInp.value = items.trim();
     }
     incomeResult.textContent = (appData.income.length == 0) ? '—' : appData.income.join('; ');
 });
@@ -279,35 +281,34 @@ savingsChekbox.addEventListener('change', function() {
 });
 
     // Ввод значений в поле Сумма (накопления)
-savingsSumInp.addEventListener('change', function() {
+savingsSumInp.addEventListener('input', function() {
+    let savingsSumValue = savingsSumInp.value;
+    if (!isContainOnlyDigits(savingsSumValue)) {
+        // alert('Должно быть введено число - сумма накоплений.');
+        savingsSumInp.value = savingsSumValue = removeNotDigits(savingsSumValue);
+    }
+    appData.savingsSum = (!isEmpty(savingsSumValue)) ? savingsSumValue : undefined;
 
-    if (!isNumeric(savingsSumInp.value)) {
-        alert('Должно быть введено число - сумма накоплений.');
-        // savingsSumInp.value = appData.savingsSum;
-    } else {
-        appData.savingsSum = +savingsSumInp.value;
-
-        if (appData.savingsPercent != undefined) {
-            appData.countSavings();
-            monthSavingsResult.textContent = appData.monthIncome.toFixed(2);
-            yearSavingsResult.textContent = appData.yearIncome.toFixed(2);
-        }
+    if (appData.savingsPercent != undefined && appData.savingsSum != undefined) {
+        appData.countSavings();
+        monthSavingsResult.textContent = appData.monthIncome.toFixed(2);
+        yearSavingsResult.textContent = appData.yearIncome.toFixed(2);
     }
 });
 
     // Ввод значений в поле Процент (накопления)
-savingsPercentInp.addEventListener('change', function() {
-
-    if (!isNumeric(savingsPercentInp.value)) {
-        alert('Должно быть введено число - процент (для накоплений).');
-        savingsPercentInp.value = appData.savingsPercent;
-    } else {
-        appData.savingsPercent = +savingsPercentInp.value;
-        if (appData.savingsSum != undefined) {
-            appData.countSavings();
-            monthSavingsResult.textContent = appData.monthIncome.toFixed(2);
-            yearSavingsResult.textContent = appData.yearIncome.toFixed(2);
-        }
+savingsPercentInp.addEventListener('input', function() {
+    let savingsPercentValue = savingsPercentInp.value;
+    if (!isNumeric(savingsPercentValue)) {
+        // alert('Должно быть введено число - процент (для накоплений).');
+        savingsPercentInp.value = savingsPercentValue = removeNotDigits(savingsPercentValue);
+        // savingsPercentInp.value = appData.savingsPercent;
+    }
+    appData.savingsPercent = (!isEmpty(savingsPercentValue)) ? savingsPercentValue : undefined;
+    if (appData.savingsPercent != undefined && appData.savingsSum != undefined) {
+        appData.countSavings();
+        monthSavingsResult.textContent = appData.monthIncome.toFixed(2);
+        yearSavingsResult.textContent = appData.yearIncome.toFixed(2);
     }
 });
 
@@ -315,7 +316,7 @@ savingsPercentInp.addEventListener('change', function() {
     /****************************************************************
         Разные вспомогательные функции */
 
-function isNumeric(n) { // проверка является ли строка числом
+function isNumeric(n) { // проверка является ли строка числом (числами также являются строки вида 1e1, 0x6f и подобные)
   return !isNaN(parseFloat(n)) && isFinite(n);
 }
 
@@ -323,21 +324,41 @@ function isContainDigit(str) {  // проверка строки на содер
     return /\d/.test(str);
 }
 
-function isContainOnlyLetters(str, comma) {  // проверка строки на содержание в ней только русских букв, пробела (и запятой)
+function isContainOnlyRussianLetters(str, comma) {  // проверка строки на содержание в ней только русских букв, пробела (и запятой)
     if (isEmpty(str)) {
         return false;
     }
     if (comma) {    // с учетом запятой (разделитель)
-        return !/[^а-яА-Я ,]/gi.test(str);
+        return !/[^а-яА-Я ,]/i.test(str);
     } else {
-        return !/[^а-яА-Я ]/gi.test(str); // ^ - кроме, т.е. если там не только руские буквы и пробел, то вернет true (а потом мы его инвертируем)
+        return !/[^а-яА-Я]/i.test(str); // ^ - кроме, т.е. если там не только руские буквы и пробел, то вернет true (а потом мы его инвертируем)
     }   
 }
 
-function isEmpty(str) { // не пропускаем пустые строки
-    return (str == null || str == '' || str.trim() == '');
+function isContainOnlyDigits(str) {  // проверка строки на содержание в ней только цифр (?и точки)
+    if (isEmpty(str)) {
+        return false;
+    }
+    return !/[\D]/gi.test(str);   
 }
-    /* проверка, можно ли получить из строки дату, не проверяет на соответствие календарю. То есть, если ввели '2018-02-30', то дата будет преобразована в '2018-03-02'. Также даже короткие числа могут быть преобразованы в дату, например 10, 50 и т.д. */
+
+function removeNotDigits(str) {
+    return str.replace(/[\D]/gi, '');
+}
+
+function removeNotRussianLetters(str, comma) {
+    if (comma) {    // с учетом запятой (разделитель)
+        return str.replace(/[^а-я, ]/gi, '');
+    }
+    else {
+        return str.replace(/[^а-я]/gi, '');
+    }
+}
+
+function isEmpty(str) { // не пропускаем пустые строки
+    return (str == null || str == '');
+}
+    /* проверка, можно ли получить из строки дату, не проверяет на соответствие календарю. То есть, если ввели '2018-02-30', то дата будет преобразована в '2018-03-02'. Также даже короткие и большие числа могут быть преобразованы в дату, например 10, 50, 23456 и т.д. */
 function isDate(str) {  
     return !((new Date(str)) == 'Invalid Date') && !isEmpty(str);
 }
