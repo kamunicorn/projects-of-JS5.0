@@ -62,10 +62,6 @@ window.addEventListener('DOMContentLoaded', function() {
 			'minutes' : minutes,
 			'hours' : hours
 		};
-		/*console.log(d);
-		console.log(Date.parse(deadline));
-		console.log(Date.parse('2018-12-12 00:00'));
-		console.log(days +' дней '+ hours +' : '+ minutes +' : '+ seconds);*/
 	}
 
 	function setClock(id, endtime) {
@@ -88,6 +84,24 @@ window.addEventListener('DOMContentLoaded', function() {
 	}
 
 	setClock('timer', deadline);
+});
+
+	// Modal
+
+let more = document.querySelector('.more'),
+	overlay = document.querySelector('.overlay'),
+	popupClose = document.querySelector('.popup-close');
+
+more.addEventListener('click', function() {
+	overlay.style.display = 'block';
+	this.classList.add('more-splash');
+	document.body.style.overflow = 'hidden';
+});
+
+popupClose.addEventListener('click', function() {
+	overlay.style.display = 'none';
+	more.classList.remove('more-splash');
+	document.body.style.overflow = '';
 });
 
 function addZero(digit) {
