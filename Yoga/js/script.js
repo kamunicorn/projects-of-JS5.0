@@ -13,7 +13,7 @@ window.addEventListener('DOMContentLoaded', function() {
 	descriptionBtn.forEach(function(btn) {
 		btn.addEventListener('click', function() {
 			sourceOfClick = this;
-			showModal(this);
+			showModal.call(this);
 		});
 	});
 
@@ -102,7 +102,7 @@ window.addEventListener('DOMContentLoaded', function() {
 
 	more.addEventListener('click', function() {
 		sourceOfClick = this;
-		showModal(this);
+		showModal.call(this);
 	});
 
 	popupClose.addEventListener('click', function() {
@@ -112,8 +112,8 @@ window.addEventListener('DOMContentLoaded', function() {
 		document.body.style.overflow = '';
 	});
 
-	function showModal(source) {
-		source.classList.add('more-splash');
+	function showModal() {
+		this.classList.add('more-splash');
 		overlay.style.display = 'block';
 		document.body.style.overflow = 'hidden';
 	}
