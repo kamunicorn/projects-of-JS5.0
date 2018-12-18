@@ -190,10 +190,8 @@ window.addEventListener('DOMContentLoaded', () => {
 			calculateTotal: function() {
 				if (this.days != null && this.people != null) {
 					this.total = this.days * this.people * this.baseRate * this.pricePerDay;
-					totalBox.textContent = this.total.toLocaleString();
 				} else {
 					this.total = null;
-					totalBox.textContent = 0;
 				}
 				/*console.log(this);
 				console.log('total = ' + this.total);*/
@@ -207,7 +205,7 @@ window.addEventListener('DOMContentLoaded', () => {
 
 		calcObj.baseRate = +target.value;
 		calcObj.baseIndex = target.selectedIndex;
-		calcObj.calculateTotal();
+		setTotalCost();
 	});
 
 	days.addEventListener('input', function() {
@@ -217,6 +215,15 @@ window.addEventListener('DOMContentLoaded', () => {
 	people.addEventListener('input', function() {
 		getAndSetProperty.call(this, 'people');
 	});
+
+	function setTotalCost() {
+		calcObj.calculateTotal();
+		if (calcObj.total != null) {
+			totalBox.textContent = calcObj.total.toLocaleString();
+		} else {
+			totalBox.textContent = 0;
+		}
+	}
 
 	function getAndSetProperty(property) {
 		let value = this.value;
@@ -234,7 +241,7 @@ window.addEventListener('DOMContentLoaded', () => {
 			this.value = value;
 			calcObj[property] = value;
 		}
-		calcObj.calculateTotal();
+		setTotalCost();
 	}
 
 });
