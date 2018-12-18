@@ -1,6 +1,6 @@
 'use strict';
 
-window.addEventListener('DOMContentLoaded', function() {
+window.addEventListener('DOMContentLoaded', () => {
 
 		// tabs switching
 
@@ -8,24 +8,22 @@ window.addEventListener('DOMContentLoaded', function() {
 		tabs = document.querySelectorAll('.info-header-tab'),
 		tabContent = document.querySelectorAll('.info-tabcontent'),
 		descriptionBtn = document.querySelectorAll('.description-btn'),
-		sourceOfClick;
+		clickedButton;
 
 	descriptionBtn.forEach(function(btn) {
 		btn.addEventListener('click', function() {
-			sourceOfClick = this;
+			clickedButton = this;
 			showModal.call(this);
 		});
 	});
 
-	hideTabContent(1);
+	showTabContent(0);
 
-	headerOfTabs.addEventListener('click', function(event) {
-		let target = event.target;
-
+	headerOfTabs.addEventListener('click', (e) => {
+		let target = e.target;
 		if (target && target.classList.contains('info-header-tab')) {
-			for (let i = 0; tabs.length; i++) {
-				if (target == tabs[i]) {
-					hideTabContent(0);
+			for (let i = 0; i < tabs.length; i++) {
+				if (target == tabs[i] && tabContent[i].classList.contains('hide')) {
 					showTabContent(i);
 					break;
 				}
@@ -33,19 +31,17 @@ window.addEventListener('DOMContentLoaded', function() {
 		}
 	});
 
-	function hideTabContent(n) {
-		for (let i = n; i < tabContent.length; i++) {
-			tabContent[i].classList.remove('show');
-			tabContent[i].classList.add('hide');
-		}
-	};
-
 	function showTabContent(n) {
-		if (tabContent[n].classList.contains('hide')) {
-			tabContent[n].classList.remove('hide');
-			tabContent[n].classList.add('show');
+		for (let i = 0; i < tabContent.length; i++) {
+			if (i == n) {
+				tabContent[n].classList.add('show');
+				tabContent[n].classList.remove('hide');
+			} else {
+				tabContent[i].classList.remove('show');
+				tabContent[i].classList.add('hide');	
+			}
 		}
-	};
+	}
 
 		// countdown timer
 
@@ -66,10 +62,10 @@ window.addEventListener('DOMContentLoaded', function() {
 			hours = Math.floor( d / 1000/60/60 );
 		
 		return {
-			'total' : d,
-			'seconds' : seconds,
-			'minutes' : minutes,
-			'hours' : hours
+			total: d,
+			seconds: seconds,
+			minutes: minutes,
+			hours: hours
 		};
 	}
 
@@ -101,14 +97,13 @@ window.addEventListener('DOMContentLoaded', function() {
 		popupClose = document.querySelector('.popup-close');
 
 	more.addEventListener('click', function() {
-		sourceOfClick = this;
+		clickedButton = this;
 		showModal.call(this);
 	});
 
-	popupClose.addEventListener('click', function() {
+	popupClose.addEventListener('click', () => {
 		overlay.style.display = 'none';
-		console.log(sourceOfClick);
-		sourceOfClick.classList.remove('more-splash');
+		clickedButton.classList.remove('more-splash');
 		document.body.style.overflow = '';
 	});
 
@@ -117,9 +112,148 @@ window.addEventListener('DOMContentLoaded', function() {
 		overlay.style.display = 'block';
 		document.body.style.overflow = 'hidden';
 	}
-});
 
+		// Photo slider
+
+	let photoBlock = document.getElementById('photo'),
+		sliderItems = photoBlock.querySelectorAll('.slider-item'),
+		photoPrev = photoBlock.querySelector('.prev'),
+		photoNext = photoBlock.querySelector('.next'),
+		sliderDotsBlock = photoBlock.querySelector('.slider-dots'),
+		sliderDotsItems = sliderDotsBlock.querySelectorAll('.dot'),
+		wantedSlide = 0;
+
+	showSliderItems(0);
+
+	photoNext.addEventListener('click', () => {
+		let lastSlide = wantedSlide;
+		wantedSlide = (wantedSlide >= 3) ? 0 : wantedSlide + 1;
+		showSliderItems(wantedSlide);
+		resetDotActive(lastSlide, wantedSlide);
+	});
+
+	photoPrev.addEventListener('click', () => {
+		let lastSlide = wantedSlide;
+		wantedSlide = (wantedSlide <= 0) ? 3 : wantedSlide - 1;
+		showSliderItems(wantedSlide);
+		resetDotActive(lastSlide, wantedSlide);
+	});
+
+	sliderDotsBlock.addEventListener('click', (e) => {
+		let target = e.target;
+		if (target && target.classList.contains('dot') && !target.classList.contains('dot-active')) {
+			let lastSlide = wantedSlide;
+			for (let i = 0; i < sliderDotsItems.length; i++) {
+				if (target == sliderDotsItems[i]) {
+					wantedSlide = i;
+					break;
+				}
+			}
+			showSliderItems(wantedSlide);
+			resetDotActive(lastSlide, wantedSlide);
+		}
+	});
+
+	function showSliderItems(n) {
+		for (let i = 0; i < sliderItems.length; i++) {
+			if (i == n) {
+				sliderItems[n].classList.add('show');
+				sliderItems[n].classList.remove('hide');
+			} else {
+				sliderItems[i].classList.remove('show');
+				sliderItems[i].classList.add('hide');	
+			}
+		}
+	}
+
+	function resetDotActive(last, current) {
+		sliderDotsItems[last].classList.remove('dot-active');
+		sliderDotsItems[current].classList.add('dot-active');
+	}
+
+		// Calculator
+
+	let calcBlock = document.getElementById('price'),
+		people = calcBlock.getElementsByClassName('counter-block-input')[0],
+		days = calcBlock.getElementsByClassName('counter-block-input')[1],
+		base = document.getElementById('select'),
+		totalBox = document.getElementById('total'),
+		
+		calcObj = {
+			days: null,
+			people: null,
+			baseIndex: base.selectedIndex,
+			baseRate: +base.value,
+			pricePerDay: 2500,
+			total: null,
+
+			calculateTotal: function() {
+				if (this.days != null && this.people != null) {
+					this.total = this.days * this.people * this.baseRate * this.pricePerDay;
+					totalBox.textContent = this.total.toLocaleString();
+				} else {
+					this.total = null;
+					totalBox.textContent = 0;
+				}
+				/*console.log(this);
+				console.log('total = ' + this.total);*/
+			}
+		};
+
+	totalBox.textContent = 0;
+
+	base.addEventListener('change', (e) => {
+		let target = e.target;
+
+		calcObj.baseRate = +target.value;
+		calcObj.baseIndex = target.selectedIndex;
+		calcObj.calculateTotal();
+	});
+
+	days.addEventListener('input', function() {
+		getAndSetProperty.call(this, 'days');
+	});
+
+	people.addEventListener('input', function() {
+		getAndSetProperty.call(this, 'people');
+	});
+
+	function getAndSetProperty(property) {
+		let value = this.value;
+
+		if (value.length > 0) {
+			if (!isContainOnlyDigits(value)) {
+				value = removeNotDigits(value);
+			}
+			value = +value;	
+		}
+		if (value == null || value == '' || value == 0) {
+			calcObj[property] = null;
+			this.value = '';
+		} else {
+			this.value = value;
+			calcObj[property] = value;
+		}
+		calcObj.calculateTotal();
+	}
+
+});
 
 function addZero(digit) {
     return (digit < 10) ? '0' + digit : '' + digit;
+}
+
+function isContainOnlyDigits(str) {  // проверка строки на содержание в ней только цифр
+    if (isEmpty(str)) {
+        return false;
+    }
+    return !/[\D]/gi.test(str);   
+}
+
+function removeNotDigits(str) {
+    return str.replace(/[\D]/gi, '');
+}
+
+function isEmpty(str) { // не пропускаем пустые строки
+    return (str == null || str == '');
 }

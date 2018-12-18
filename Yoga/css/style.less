@@ -325,6 +325,12 @@ header {
 					transition: 1s;
 				}
 			}
+			.hide {
+				display: none;
+			}
+			.show {
+				display: block;
+			}
 		}
 
 		&-dots {
@@ -612,4 +618,26 @@ header {
 			}
 		}
 	}
+}
+.more-splash {
+  -webkit-animation-name: splash;
+          animation-name: splash;
+  -webkit-animation-duration: 1.7s;
+          animation-duration: 1.7s;
+}
+@-webkit-keyframes splash {
+  from {
+    box-shadow: 0 0 10px #c78030;
+  }
+  to {
+    box-shadow: 0 0 60px #c78030;
+  }
+}
+@keyframes splash {
+  from {
+    box-shadow: 0 0 10px #c78030;
+  }
+  to {
+    box-shadow: 0 0 60px #c78030;
+  }
 }
