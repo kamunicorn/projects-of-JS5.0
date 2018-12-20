@@ -244,6 +244,68 @@ window.addEventListener('DOMContentLoaded', () => {
 		setTotalCost();
 	}
 
+		// Main form submit
+	let statusMessage = {
+		loading: 'Загрузка...',
+		success: 'Спасибо! Скоро мы с вами свяжемся!',
+		failure: 'Что-то пошло не так.'
+	};
+
+	let statusBox = document.createElement('div'),
+		mainForm = document.querySelector('.main-form'),
+		contactForm = document.querySelector('#contacts form');
+
+	statusBox.classList.add('status');
+
+	contactForm.addEventListener('submit', function(e) {
+		e.preventDefault();
+		submitForm(this);
+	});
+
+	mainForm.addEventListener('submit', function(e) {
+		e.preventDefault();
+		submitForm(this);
+	});
+
+	function submitForm(form) {
+		let formInputs = form.querySelectorAll('input');
+		form.appendChild(statusBox);
+
+		let request = new XMLHttpRequest();
+		request.open('POST', 'server.php', true);
+		request.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+		
+		let formData = new FormData(form);
+		request.send(formData);
+
+		request.addEventListener('readystatechange', function() {
+			if (request.readyState < 4) {
+				statusBox.innerHTML = statusMessage.loading;
+			} else if (request.readyState === 4 && request.status === 200) {
+				statusBox.innerHTML = statusMessage.success;
+			} else {
+				statusBox.innerHTML = statusMessage.failure;
+			}
+		});
+
+		formInputs.forEach(function(input) {
+			input.value = '';
+		});
+	}
+
+		// verify and reset telephone str
+
+	let phoneInputs = document.querySelectorAll('input[type=tel]')
+	// console.log(phoneInputs);
+
+	phoneInputs.forEach(function(input) {
+		input.addEventListener('input', function() {
+			// console.log(this);
+			this.value = verifyTelephone(this.value);
+		});
+	});
+	
+
 });
 
 function addZero(digit) {
@@ -263,4 +325,9 @@ function removeNotDigits(str) {
 
 function isEmpty(str) { // не пропускаем пустые строки
     return (str == null || str == '');
+}
+
+function verifyTelephone(str) {
+	let s = removeNotDigits(str);
+	return (s == '') ? '' : '+' + s;
 }
