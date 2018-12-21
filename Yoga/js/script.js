@@ -270,27 +270,40 @@ window.addEventListener('DOMContentLoaded', () => {
 	function submitForm(form) {
 		let formInputs = form.querySelectorAll('input');
 		form.appendChild(statusBox);
-
-		let request = new XMLHttpRequest();
-		request.open('POST', 'server.php', true);
-		request.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-		
 		let formData = new FormData(form);
-		request.send(formData);
+		
+		function postData(data) {
 
-		request.addEventListener('readystatechange', function() {
-			if (request.readyState < 4) {
-				statusBox.innerHTML = statusMessage.loading;
-			} else if (request.readyState === 4 && request.status === 200) {
-				statusBox.innerHTML = statusMessage.success;
-			} else {
-				statusBox.innerHTML = statusMessage.failure;
-			}
-		});
+			return new Promise(function(resolve, reject) {
+				let request = new XMLHttpRequest();
+				request.open('POST', 'server.php');
+				request.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+				
+				request.onreadystatechange = function() {
+					if (request.readyState < 4) {
+						resolve()
+						// statusBox.innerHTML = statusMessage.loading;
+					} else if (request.readyState === 4 && request.status === 200) {
+						resolve()
+						// statusBox.innerHTML = statusMessage.success;
+					} else {
+						reject()
+						// statusBox.innerHTML = statusMessage.failure;
+					}
+				};
 
-		formInputs.forEach(function(input) {
-			input.value = '';
-		});
+				request.send(data);
+
+			});
+		}	// End postData
+
+		postData(formData)
+				.then(() => statusBox.innerHTML = statusMessage.loading)
+				.then(() => {
+					statusBox.innerHTML = statusMessage.success;
+					formInputs.forEach( (input) => input.value = '' );
+				})
+				.catch(() => statusBox.innerHTML = statusMessage.failure)
 	}
 
 		// verify and reset telephone str
