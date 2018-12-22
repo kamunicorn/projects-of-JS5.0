@@ -1,8 +1,4 @@
-<<<<<<< HEAD
-"use strict"; //
-=======
 "use strict";
->>>>>>> 0bd37fe27926df6fced880614799b6e7de977543
 
 let expensesInps = document.getElementsByClassName('expenses-item'),
     optExpensesInps = document.querySelectorAll('.optionalexpenses-item'),

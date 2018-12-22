@@ -3,11 +3,12 @@ let age = document.getElementById('age');
 let alex = new User('Ivanov', 'Alex');
 console.log(alex);
 
-showUser.apply(age, ['Ivanov', 'Alex']);
-showUser.apply(age, ['Alekseev', 'Ivan']);
+showUser2.call(age, 'Ivanov');
+// showUser.apply(age, ['Ivanov', 'Alex']);
+// showUser.apply(age, ['Alekseev', 'Ivan']);
 
 let result = showUserObj.bind(age);
-console.log(result(alex));
+// result(alex);
 
 function User(surname, name) {
 	this.surname = surname;
@@ -18,6 +19,10 @@ function showUser(surname, name) {
     alert("Пользователь " + surname + " " + name + ", его возраст " + this.value);
 }
 
+function showUser2(surname) {
+    alert("Пользователь " + surname + ", его возраст " + this.value);
+}
+
 function showUserObj(obj) {
-    return "Пользователь " + obj.surname + " " + obj.name + ", его возраст " + this.value;
+    alert("Пользователь " + obj.surname + " " + obj.name + ", его возраст " + this.value);
 }
