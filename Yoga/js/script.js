@@ -178,7 +178,7 @@ window.addEventListener('DOMContentLoaded', () => {
 		days = calcBlock.getElementsByClassName('counter-block-input')[1],
 		base = document.getElementById('select'),
 		totalBox = document.getElementById('total'),
-		
+		// 
 		calcObj = {
 			days: null,
 			people: null,
