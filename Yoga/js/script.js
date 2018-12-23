@@ -180,15 +180,15 @@ window.addEventListener('DOMContentLoaded', () => {
 		totalBox = document.getElementById('total'),
 		
 		calcObj = {
-			days: 0,
-			people: 0,
+			days: null,
+			people: null,
 			baseIndex: base.selectedIndex,
 			baseRate: +base.value,
 			pricePerDay: 2500,
-			total: 0,
+			total: null,
 
 			calculateTotal: function() {
-				if (this.days == 0 && this.people == 0) {
+				if (this.days == 0 || this.people == 0 || this.days == null || this.people == null) {
 					this.total = 0;
 				} else {
 					this.total = (this.days + this.people) * this.baseRate * this.pricePerDay;
@@ -214,23 +214,19 @@ window.addEventListener('DOMContentLoaded', () => {
 	});
 
 	days.addEventListener('input', function() {
-		// if (this.value != '') {
-			getAndSetProperty.call(this, 'days');
-		
+		getAndSetProperty.call(this, 'days');
 	});
 
 	people.addEventListener('input', function() {
-		// if (this.value != '') {
-			getAndSetProperty.call(this, 'people');
-		
+		getAndSetProperty.call(this, 'people');
 	});
 
 	function setTotalCost() {
 		calcObj.calculateTotal();
-		if (calcObj.total != null && calcObj.total != 0) {
-			totalBox.textContent = calcObj.total.toLocaleString();
-		} else {
+		if (calcObj.total == null || calcObj.total == 0) {
 			totalBox.textContent = 0;
+		} else {
+			totalBox.textContent = calcObj.total.toLocaleString();
 		}
 	}
 
