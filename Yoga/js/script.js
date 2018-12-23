@@ -180,15 +180,15 @@ window.addEventListener('DOMContentLoaded', () => {
 		totalBox = document.getElementById('total'),
 		
 		calcObj = {
-			days: 0,
-			people: 0,
+			days: null,
+			people: null,
 			baseIndex: base.selectedIndex,
 			baseRate: +base.value,
 			pricePerDay: 2500,
-			total: 0,
+			total: null,
 
 			calculateTotal: function() {
-				if (this.days == 0 && this.people == 0) {
+				if ((this.days == 0 && this.people == 0) || this.days == null || this.people == null) {
 					this.total = 0;
 				} else {
 					this.total = (this.days + this.people) * this.baseRate * this.pricePerDay;
