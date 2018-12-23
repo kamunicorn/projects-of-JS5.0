@@ -123,25 +123,25 @@ window.addEventListener('DOMContentLoaded', () => {
 		sliderDotsItems = sliderDotsBlock.querySelectorAll('.dot'),
 		wantedSlide = 0;
 
-	showSliderItems(0);
+	showSliderItems(wantedSlide);
 
 	photoNext.addEventListener('click', () => {
 		let lastSlide = wantedSlide;
-		wantedSlide = (wantedSlide >= 3) ? 0 : wantedSlide + 1;
+		wantedSlide = (wantedSlide >= sliderItems.length - 1) ? 0 : wantedSlide + 1;
 		showSliderItems(wantedSlide);
 		resetDotActive(lastSlide, wantedSlide);
 	});
 
 	photoPrev.addEventListener('click', () => {
 		let lastSlide = wantedSlide;
-		wantedSlide = (wantedSlide <= 0) ? 3 : wantedSlide - 1;
+		wantedSlide = (wantedSlide <= 0) ? sliderItems.length - 1 : wantedSlide - 1;
 		showSliderItems(wantedSlide);
 		resetDotActive(lastSlide, wantedSlide);
 	});
 
 	sliderDotsBlock.addEventListener('click', (e) => {
 		let target = e.target;
-		if (target && target.classList.contains('dot') && !target.classList.contains('dot-active')) {
+		if (target.classList.contains('dot') && !target.classList.contains('dot-active')) {
 			let lastSlide = wantedSlide;
 			for (let i = 0; i < sliderDotsItems.length; i++) {
 				if (target == sliderDotsItems[i]) {
@@ -180,19 +180,24 @@ window.addEventListener('DOMContentLoaded', () => {
 		totalBox = document.getElementById('total'),
 		
 		calcObj = {
-			days: null,
-			people: null,
+			days: 0,
+			people: 0,
 			baseIndex: base.selectedIndex,
 			baseRate: +base.value,
 			pricePerDay: 2500,
-			total: null,
+			total: 0,
 
 			calculateTotal: function() {
-				if (this.days != null && this.people != null) {
+				if (this.days == 0 && this.people == 0) {
+					this.total = 0;
+				} else {
+					this.total = (this.days + this.people) * this.baseRate * this.pricePerDay;
+				}
+				/*if (this.days != null && this.people != null) {
 					this.total = this.days * this.people * this.baseRate * this.pricePerDay;
 				} else {
 					this.total = null;
-				}
+				}*/
 				/*console.log(this);
 				console.log('total = ' + this.total);*/
 			}
@@ -209,16 +214,20 @@ window.addEventListener('DOMContentLoaded', () => {
 	});
 
 	days.addEventListener('input', function() {
-		getAndSetProperty.call(this, 'days');
+		// if (this.value != '') {
+			getAndSetProperty.call(this, 'days');
+		
 	});
 
 	people.addEventListener('input', function() {
-		getAndSetProperty.call(this, 'people');
+		// if (this.value != '') {
+			getAndSetProperty.call(this, 'people');
+		
 	});
 
 	function setTotalCost() {
 		calcObj.calculateTotal();
-		if (calcObj.total != null) {
+		if (calcObj.total != null && calcObj.total != 0) {
 			totalBox.textContent = calcObj.total.toLocaleString();
 		} else {
 			totalBox.textContent = 0;
@@ -235,7 +244,7 @@ window.addEventListener('DOMContentLoaded', () => {
 			value = +value;	
 		}
 		if (value == null || value == '' || value == 0) {
-			calcObj[property] = null;
+			calcObj[property] = 0;
 			this.value = '';
 		} else {
 			this.value = value;
@@ -244,7 +253,8 @@ window.addEventListener('DOMContentLoaded', () => {
 		setTotalCost();
 	}
 
-		// Main form submit
+		// Forms submit
+
 	let statusMessage = {
 		loading: 'Загрузка...',
 		success: 'Спасибо! Скоро мы с вами свяжемся!',
