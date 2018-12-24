@@ -6,16 +6,7 @@ window.addEventListener('DOMContentLoaded', () => {
 
 	let headerOfTabs = document.querySelector('.info-header'),
 		tabs = document.querySelectorAll('.info-header-tab'),
-		tabContent = document.querySelectorAll('.info-tabcontent'),
-		descriptionBtn = document.querySelectorAll('.description-btn'),
-		clickedButton;
-
-	descriptionBtn.forEach(function(btn) {
-		btn.addEventListener('click', function() {
-			clickedButton = this;
-			showModal.call(this);
-		});
-	});
+		tabContent = document.querySelectorAll('.info-tabcontent');
 
 	showTabContent(0);
 
@@ -94,7 +85,16 @@ window.addEventListener('DOMContentLoaded', () => {
 
 	let more = document.querySelector('.more'),
 		overlay = document.querySelector('.overlay'),
-		popupClose = document.querySelector('.popup-close');
+		popupClose = document.querySelector('.popup-close'),
+		descriptionBtn = document.querySelectorAll('.description-btn'),
+		clickedButton;
+
+	descriptionBtn.forEach(function(btn) {
+		btn.addEventListener('click', function() {
+			clickedButton = this;
+			showModal.call(this);
+		});
+	});
 
 	more.addEventListener('click', function() {
 		clickedButton = this;
