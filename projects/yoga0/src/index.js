@@ -1,14 +1,14 @@
 /*jshint esversion: 6 */
 // 'use strict';
 
-let x = 1;
-console.log(x);
+/* let functions = require('./parts/functions.js');
+functions(); */
 
-window.addEventListener('DOMContentLoaded', () => {
+window.addEventListener('DOMContentLoaded', function() {
 
 	let calc = require('./parts/calc.js'),
 		form = require('./parts/forms.js'),
-		modal = require('./parts/functions.js'),
+		modal = require('./parts/modal.js'),
 		slider = require('./parts/slider.js'),
 		tabs = require('./parts/tabs.js'),
 		timer = require('./parts/timer.js');
@@ -21,6 +21,3 @@ window.addEventListener('DOMContentLoaded', () => {
 	timer();
 
 });
-
-let functions = require('./parts/functions.js');
-functions();

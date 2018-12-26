@@ -1,4 +1,17 @@
+function isEmpty(str) { // не пропускаем пустые строки
+	return (str == null || str == '');
+}
 	// Calculator
+function isContainOnlyDigits(str) {  // проверка строки на содержание в ней только цифр
+	if (isEmpty(str)) {
+		return false;
+	}
+	return !/[\D]/gi.test(str);   
+}
+function removeNotDigits(str) {
+	return str.replace(/[\D]/gi, '');
+}
+
 function calc() {
 	let calcBlock = document.getElementById('price'),
 		people = calcBlock.getElementsByClassName('counter-block-input')[0],

@@ -1,4 +1,10 @@
+/*jshint esversion: 6 */
 	// countdown timer
+
+function addZero(digit) {
+	return (digit < 10) ? '0' + digit : '' + digit;
+}
+
 function timer() {
 
 	let deadline = '2019-01-01 00:00:00';

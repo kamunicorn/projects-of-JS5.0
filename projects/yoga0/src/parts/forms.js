@@ -1,5 +1,11 @@
 /*jshint esversion: 6 */
-
+function verifyTelephone(str) {
+	let s = removeNotDigits(str);
+	return (s == '') ? '' : '+' + s;
+}
+function removeNotDigits(str) {
+	return str.replace(/[\D]/gi, '');
+}
 	// Forms submit
 function forms() {
 
