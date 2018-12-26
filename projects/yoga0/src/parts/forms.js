@@ -36,6 +36,14 @@ function forms() {
 		statusBox.classList.add('status');
 		form.appendChild(statusBox);
 		let formData = new FormData(form);
+
+		let formData2 = {};
+		formInputs.forEach((inp) => {
+			formData2[inp.name] = inp.value;
+		});
+		formData = JSON.stringify(formData2);
+		// console.log(formInputs);
+		console.log(formData);
 		
 		function postData(data) {
 
