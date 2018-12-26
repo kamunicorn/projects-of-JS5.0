@@ -1,3 +1,4 @@
+/*jshint esversion: 6 */
 	// Modal
 function modal() {
 	let more = document.querySelector('.more'),
@@ -19,6 +20,11 @@ function modal() {
 	});
 
 	popupClose.addEventListener('click', () => {
+		let statusBox = overlay.querySelector('.status');
+		// console.log(statusBox);
+		if (statusBox) {
+			statusBox.remove();
+		}
 		overlay.style.display = 'none';
 		clickedButton.classList.remove('more-splash');
 		document.body.style.overflow = '';

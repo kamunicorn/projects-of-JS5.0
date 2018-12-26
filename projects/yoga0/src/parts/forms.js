@@ -15,11 +15,9 @@ function forms() {
 		failure: 'Что-то пошло не так.'
 	};
 
-	let statusBox = document.createElement('div'),
-		mainForm = document.querySelector('.main-form'),
+	let mainForm = document.querySelector('.main-form'),
 		contactForm = document.querySelector('#contacts form');
-
-	statusBox.classList.add('status');
+	
 
 	contactForm.addEventListener('submit', function(e) {
 		e.preventDefault();
@@ -32,7 +30,10 @@ function forms() {
 	});
 
 	function submitForm(form) {
-		let formInputs = form.querySelectorAll('input');
+		let formInputs = form.querySelectorAll('input'),
+			statusBox = document.createElement('div');
+
+		statusBox.classList.add('status');
 		form.appendChild(statusBox);
 		let formData = new FormData(form);
 		
@@ -45,8 +46,8 @@ function forms() {
 				
 				request.onreadystatechange = function() {
 					if (request.readyState < 4) {
-						resolve();
-						// statusBox.innerHTML = statusMessage.loading;
+						// resolve();
+						statusBox.innerHTML = statusMessage.loading;
 					} else if (request.readyState === 4 && request.status === 200) {
 						resolve();
 						// statusBox.innerHTML = statusMessage.success;
@@ -62,12 +63,14 @@ function forms() {
 		}	// End postData
 
 		postData(formData)
-				.then(() => statusBox.innerHTML = statusMessage.loading)
+				// .then(() => statusBox.innerHTML = statusMessage.loading)
 				.then(() => {
 					statusBox.innerHTML = statusMessage.success;
 					formInputs.forEach( (input) => input.value = '' );
 				})
 				.catch(() => statusBox.innerHTML = statusMessage.failure);
+		
+		setTimeout(() => statusBox.remove(), 3000);
 	}
 
 		// verify and reset telephone str
