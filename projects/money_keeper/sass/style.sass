@@ -52,9 +52,15 @@ a
     .expenses-item, .optionalexpenses-item, .choose-income, .choose-sum, .choose-percent
         @include input
         &::placeholder
-            opacity: .3
+            opacity: .8
+    // .inp-disabled
+    input:disabled
+        background-color:  #f5f5f5
     .expenses-item-btn, .optionalexpenses-btn, .count-budget-btn
         @include btn
+    // .btn-disabled
+    button:disabled
+        background-color:  #e9ac69
     .optionalexpenses-item
         width: calc((100%/3) - 4px)
     .count-budget-btn

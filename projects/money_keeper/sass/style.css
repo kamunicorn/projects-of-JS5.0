@@ -86,23 +86,19 @@ a:active {
 }
 
 .data .expenses-item::-webkit-input-placeholder, .data .optionalexpenses-item::-webkit-input-placeholder, .data .choose-income::-webkit-input-placeholder, .data .choose-sum::-webkit-input-placeholder, .data .choose-percent::-webkit-input-placeholder {
-  opacity: .8;
+  opacity: .3;
 }
 
 .data .expenses-item:-ms-input-placeholder, .data .optionalexpenses-item:-ms-input-placeholder, .data .choose-income:-ms-input-placeholder, .data .choose-sum:-ms-input-placeholder, .data .choose-percent:-ms-input-placeholder {
-  opacity: .8;
+  opacity: .3;
 }
 
 .data .expenses-item::-ms-input-placeholder, .data .optionalexpenses-item::-ms-input-placeholder, .data .choose-income::-ms-input-placeholder, .data .choose-sum::-ms-input-placeholder, .data .choose-percent::-ms-input-placeholder {
-  opacity: .8;
+  opacity: .3;
 }
 
 .data .expenses-item::placeholder, .data .optionalexpenses-item::placeholder, .data .choose-income::placeholder, .data .choose-sum::placeholder, .data .choose-percent::placeholder {
-  opacity: .8;
-}
-
-.data input:disabled {
-  background-color: #f5f5f5;
+  opacity: .3;
 }
 
 .data .expenses-item-btn, .data .optionalexpenses-btn, .data .count-budget-btn {
@@ -112,7 +108,7 @@ a:active {
   margin: 0 auto;
   border: none;
   border-radius: 2.5px;
-  background-color: #ff8a33;
+  background-color: #ff750f;
   -webkit-box-shadow: 0px 2.5px 10px 0 rgba(1, 0, 42, 0.1);
           box-shadow: 0px 2.5px 10px 0 rgba(1, 0, 42, 0.1);
   color: #fff;
@@ -121,8 +117,21 @@ a:active {
   cursor: pointer;
 }
 
-.data button:disabled {
-  background-color: #e9ac69;
+.data .btn-disabled {
+  width: 70px;
+  height: 30px;
+  display: block;
+  margin: 0 auto;
+  border: none;
+  border-radius: 2.5px;
+  background-color: #ff750f;
+  -webkit-box-shadow: 0px 2.5px 10px 0 rgba(1, 0, 42, 0.1);
+          box-shadow: 0px 2.5px 10px 0 rgba(1, 0, 42, 0.1);
+  color: #fff;
+  font-weight: 100;
+  font-size: 12px;
+  cursor: pointer;
+  background-color: #ffbd75;
 }
 
 .data .optionalexpenses-item {
@@ -161,7 +170,7 @@ a:active {
   margin: 0 auto;
   border: none;
   border-radius: 2.5px;
-  background-color: #ff8a33;
+  background-color: #ff750f;
   -webkit-box-shadow: 0px 2.5px 10px 0 rgba(1, 0, 42, 0.1);
           box-shadow: 0px 2.5px 10px 0 rgba(1, 0, 42, 0.1);
   color: #fff;
@@ -243,3 +252,4 @@ a:active {
   height: 30px;
   margin-left: 25px;
 }
+/*# sourceMappingURL=style.css.map */

@@ -1,3 +1,5 @@
+/* jshint esversion: 6 */
+/* jshint browser: true*/
 "use strict";
 
 let expensesInps = document.getElementsByClassName('expenses-item'),
@@ -7,10 +9,10 @@ let expensesInps = document.getElementsByClassName('expenses-item'),
     savingsSumInp = document.querySelector('#sum'),
     savingsPercentInp = document.querySelector('#percent'),
 
-        // Получение кнопок
-    expensesBtn = document.getElementsByTagName('button')[0],   // Кнопка Утвердить обязательные расходы
-    optExpensesBtn = document.getElementsByTagName('button')[1],    // Кнопка Утвердить необязательные расходы
-    countBudgetBtn = document.getElementsByTagName('button')[2],    // Кнопка Рассчитать (дневной бюджет)
+        // Кнопки
+    expensesBtn = document.getElementsByTagName('button')[0],   // Утвердить обязательные расходы
+    optExpensesBtn = document.getElementsByTagName('button')[1],    // Утвердить необязательные расходы
+    countBudgetBtn = document.getElementsByTagName('button')[2],    // Рассчитать (дневной бюджет)
     startBtn = document.getElementById('start'),    // Кнопка Начать расчет
 
         // Указанная дата - год, месяц, день (внизу справа)
@@ -26,10 +28,7 @@ let expensesInps = document.getElementsByClassName('expenses-item'),
     optExpensesResult = document.getElementsByClassName('optionalexpenses-value')[0],
     incomeResult = document.getElementsByClassName('income-value')[0],
     monthSavingsResult = document.getElementsByClassName('monthsavings-value')[0],
-    yearSavingsResult = document.getElementsByClassName('yearsavings-value')[0],
-
-    // allDataButtons = document.querySelectorAll('.data button'),
-    allDataInputs = document.querySelectorAll('.data input');
+    yearSavingsResult = document.getElementsByClassName('yearsavings-value')[0];
     
     // Наш главный глобальный объект
 let appData = {
@@ -53,85 +52,21 @@ let appData = {
 }
     // полнота (не)обязательных расходов, проверяется в функции verifyDataCompleteness
 let expensesDataCompleteness = {},
-    optExpensesDataCompleteness = {};
-
-    /*************************************************************************
-        Обработчики событий изменения на инпуты (не)обязательных расходов - навешиваются скопом в циклах */
+    optExpensesDataCompleteness = {},
+    allDataInputs = document.querySelectorAll('.data input');
     
-    // Навесим на все инпуты для обязательных расходов событие, проверяющее их на правильную заполненность и разблокирующее кнопку записи их в объект appData
-for (let i = 0; i < expensesInps.length; i++) {
-    if ( i % 2 == 0 ) { // четные инпуты - название расходов
-        expensesInps[i].addEventListener('input', function(event) {
-            let expenseKey = event.target.value;
-            if (isEmpty(expenseKey)) {
-                expensesDataCompleteness[i] = false;
-                // alert('Наименование (ключ) обязательных расходов не может быть пустым.');
-            } else if (!isContainOnlyRussianLetters(expenseKey)) {
-                // alert('Наименование (ключ = "' + expenseKey + '") обязательных расходов должен содержать только русские буквы.');
-                event.target.value = expenseKey = removeNotRussianLetters(expenseKey).trim();
-            }
-
-            expensesDataCompleteness[i] = (isEmpty(expenseKey)) ? false : true;
-            
-            if (verifyDataCompleteness(expensesDataCompleteness, expensesInps.length)) {
-                expensesBtn.removeAttribute('disabled');
-            } else {
-                expensesBtn.setAttribute('disabled', true);
-            }
-        console.log(expensesDataCompleteness);
-        });
-    } else {    // нечетные инпуты - значение расходов
-        expensesInps[i].addEventListener('input', function() {
-            let expenseValue = event.target.value;
-            if (!isContainOnlyDigits(expenseValue)) {
-                // alert('Цена (значение) обязательных расходов "' + expenseValue + '" должно быть числом.');
-                event.target.value = expenseValue = removeNotDigits(expenseValue);
-            }
-            expensesDataCompleteness[i] = (isEmpty(expenseValue)) ? false : true;
-            if (verifyDataCompleteness(expensesDataCompleteness, expensesInps.length)) {
-                expensesBtn.removeAttribute('disabled');
-            } else {
-                expensesBtn.setAttribute('disabled', true);
-            }
-            console.log(expensesDataCompleteness);
-        });
-    }
-}
-
-    // Навесим на все инпуты для необязательных расходов событие, проверяющее их на правильную заполненность и разблокирующее кнопку записи их в объект appData
-for (let i = 0; i < optExpensesInps.length; i++) {
-    optExpensesInps[i].addEventListener('input', function(event) {
-        let optExpenseKey = event.target.value;
-        if (isEmpty(optExpenseKey)) {
-            optExpensesDataCompleteness[i] = false;
-            // alert('Наименование (ключ) обязательных расходов не может быть пустым.');
-        } else if (!isContainOnlyRussianLetters(optExpenseKey)) {
-            // alert('Наименование (ключ = "' + optExpenseKey + '") необязательных расходов должен содержать только русские буквы.');
-            event.target.value = optExpenseKey = removeNotRussianLetters(optExpenseKey).trim();
-        }
-        optExpensesDataCompleteness[i] = (isEmpty(optExpenseKey)) ? false : true;
-
-        if (verifyDataCompleteness(optExpensesDataCompleteness, optExpensesInps.length)) {
-            optExpensesBtn.removeAttribute('disabled');
-        } else {
-            optExpensesBtn.setAttribute('disabled', true);
-        }
-    console.log(optExpensesDataCompleteness);
-    });
-}
-
-
     /*************************************************************************
         Обработчики событий на кнопки, инпуты - навешиваются по отдельности */
 
-document.addEventListener('DOMContentLoaded', function() {
-    allDataInputs.forEach(function(inp) {
-        inp.setAttribute('disabled', true);
-    });
+window.addEventListener('DOMContentLoaded', function() {
+
+    // allDataButtons = document.querySelectorAll('.data button'),
+    allDataInputs.forEach((inp) => {inp.setAttribute('disabled', true);});
 
     expensesBtn.setAttribute('disabled', true);
     optExpensesBtn.setAttribute('disabled', true);
     countBudgetBtn.setAttribute('disabled', true);
+
 });
 
     /* Кнопка Начать расчет: Получение значений бюджета (общий), строки даты, и последующая запись всего этого в поля справа */
@@ -226,7 +161,7 @@ optExpensesBtn.addEventListener('click', function() {
     let i = 0;
     optExpensesResult.textContent = '';
     optExpensesInps.forEach(function(item) {
-        answer = item.value;
+        let answer = item.value;
         if (isEmpty(answer)) {
             // ничего (потому что это необязательный расход)
         } else if (!isContainOnlyRussianLetters(answer)) {
@@ -251,8 +186,7 @@ incomeInp.addEventListener('input', function() {
     if (isEmpty(items)) {
         // ничего (потому что это необязательный доход)
         appData.income = [];
-    } else if (!isContainOnlyRussianLetters(items, true)) { // не только буквы, с учетом запятой
-        // alert('Строка должна состоять только из русских букв, с разделителем из запятой (пробел допускается).');
+    } else if (!isContainOnlyRussianLetters(items, true)) { // не только буквы, с учетом запятой. Строка должна состоять только из русских букв, с разделителем из запятой (пробел допускается)
         incomeInp.value = removeNotRussianLetters(items, true).trim();
         
     } else {
