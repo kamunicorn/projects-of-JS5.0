@@ -38,6 +38,8 @@ let appData = {
     savings: false,
     savingsSum: undefined,
     savingsPercent: undefined,
+    monthIncome: undefined,
+    yearIncome: undefined,
     countSavings: function() {
         if (this.savings && this.savingsSum != undefined && this.savingsPercent != undefined) {
             this.monthIncome = this.savingsSum/100/12 * this.savingsPercent;
@@ -46,6 +48,18 @@ let appData = {
             this.monthIncome = '';
             this.yearIncome = '';
         }
+    },
+    reset: function() {
+        this.budget = undefined;
+        this.timeData = undefined;
+        this.expenses = {};
+        this.optExpense = [];
+        this.income = [];
+        this.savings = false;
+        this.savingsSum = undefined;
+        this.savingsPercent = undefined;
+        this.monthIncome = undefined;
+        this.yearIncome = undefined;
     }
 };
     // полнота (не)обязательных расходов, проверяется в функции verifyDataCompleteness
@@ -70,13 +84,12 @@ document.querySelectorAll('.result-table div').forEach( (item) => {
 
 window.addEventListener('DOMContentLoaded', function() {
     allDataInputs.forEach( (inp) => {inp.setAttribute('disabled', true);} );
-    startApp();
+    clearAndDisable();
 });
 
     /* Кнопка Начать расчет: Получение значений бюджета (общий), строки даты, и последующая запись всего этого в поля справа */
 startBtn.addEventListener('click', () => {
     let money, dateStr;
-
     while (true) {
         money = prompt('Ваш бюджет на месяц?', '');
         if (isContainOnlyDigits(money)) {
@@ -85,9 +98,6 @@ startBtn.addEventListener('click', () => {
             alert('Нужно ввести число.');
         }
     }
-    money = +money;
-    appData.budget = money;
-
     while (true) {
         dateStr = prompt('Введите дату в формате YYYY-MM-DD', '');
         if (isDate(dateStr)) {
@@ -96,26 +106,29 @@ startBtn.addEventListener('click', () => {
             alert('Нужно ввести дату в формате YYYY-MM-DD.');
         }
     }
+    appData.reset();
+    money = +money;
+    appData.budget = money;
+    clearAndDisable();
+    
     appData.timeData = new Date(dateStr);
     yearValue.value = appData.timeData.getFullYear();
     monthValue.value = appData.timeData.getMonth() + 1;
     dayValue.value = appData.timeData.getDate();
 
     allDataInputs.forEach( (inp) => {inp.removeAttribute('disabled');} );
-    startApp();
+    savingsSumInp.setAttribute('disabled', true);
+    savingsPercentInp.setAttribute('disabled', true);
+    savingsChekbox.checked = false;
     budgetResult.textContent = appData.budget;
-     
 });
 
-function startApp() {
+function clearAndDisable() {
     allDataButtons.forEach((btn) => {btn.setAttribute('disabled', true);});
     startBtn.removeAttribute('disabled');
     resultValues.forEach( (div) => {div.textContent = '';} );
     allDataInputs.forEach( (inp) => {inp.value = '';} );
-
-    savingsSumInp.setAttribute('disabled', true);
-    savingsPercentInp.setAttribute('disabled', true);
-    savingsChekbox.checked = false;
+    console.log(appData);
 }
 
     // Кнопка Рассчитать (дневной бюджет и уровень дохода)
@@ -147,8 +160,6 @@ expensesBtn.addEventListener('click', () => {
     }
     expensesResult.textContent = expensesSum;
     countBudgetBtn.removeAttribute('disabled');
-    console.log('Получены все значения обязательных расходов:');
-    console.log(appData.expenses);
 });
 
     // Кнопка Утвердить (НЕобязательные расходы)
