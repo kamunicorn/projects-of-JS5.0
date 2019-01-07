@@ -276,7 +276,7 @@ savingsPercentInp.addEventListener('input', () => {
         .replace(/^0+/g, '0');
 
     percent = (/^0\d+/.test(percent)) ? percent.slice(1) : percent;
-    percent = (percent[0] == '.') ? '0' + percent : percent;
+    percent = (percent[0] == '.' && percent.length == 1) ? '0' + percent : percent;
     
     if (percent != '' && !isNumeric(percent) && isNumeric(appData.savingsPercent)) {
         percent = appData.savingsPercent;
