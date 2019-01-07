@@ -45,8 +45,8 @@ let appData = {
             this.monthIncome = this.savingsSum/100/12 * this.savingsPercent;
             this.yearIncome = this.savingsSum/100 * this.savingsPercent;
         } else {
-            this.monthIncome = '';
-            this.yearIncome = '';
+            this.monthIncome = undefined;
+            this.yearIncome = undefined;
         }
     },
     reset: function() {
@@ -128,7 +128,7 @@ function clearAndDisable() {
     startBtn.removeAttribute('disabled');
     resultValues.forEach( (div) => {div.textContent = '';} );
     allDataInputs.forEach( (inp) => {inp.value = '';} );
-    console.log(appData);
+    // console.log(appData);
 }
 
     // Кнопка Рассчитать (дневной бюджет и уровень дохода)
@@ -237,6 +237,8 @@ incomeInp.addEventListener('input', () => {
     incomeResult.textContent = (appData.income.length == 0) ? '—' : appData.income.join('; ');
 });
 
+// let setSavingsResult = savingsResult.bind(appData);
+
     // Щелканье по чекбоксу Есть ли накопления
 savingsChekbox.addEventListener('change', () => {
     appData.savings = savingsChekbox.checked;
@@ -254,7 +256,7 @@ savingsChekbox.addEventListener('change', () => {
     }
     savingsSumInp.value = '';
     savingsPercentInp.value = '';
-    setSavingsResult();
+    setSavingsResult.call(appData);
 });
 
     // Ввод значений в поле Сумма (накопления)
@@ -263,36 +265,48 @@ savingsSumInp.addEventListener('input', () => {
     savingsSumInp.value = savingsSumValue;
     
     appData.savingsSum = (savingsSumValue != '') ? savingsSumValue : undefined;
-    setSavingsResult();
+    setSavingsResult.call(appData);
 });
 
     // Ввод значений в поле Процент (накопления)
 savingsPercentInp.addEventListener('input', () => {
-    let savingsPercentValue = removeNotDigits(savingsPercentInp.value);
-    savingsPercentInp.value = savingsPercentValue;
+    let percent = 
+        removeNotDigits(savingsPercentInp.value, true)
+        .replace(/(\.+)/g, '.')
+        .replace(/^0+/g, '0');
+
+    percent = (/^0\d+/.test(percent)) ? percent.slice(1) : percent;
+    percent = (percent[0] == '.') ? '0' + percent : percent;
     
-    appData.savingsPercent = (savingsPercentValue != '') ? savingsPercentValue : undefined;
-    setSavingsResult();
+    if (percent != '' && !isNumeric(percent) && isNumeric(appData.savingsPercent)) {
+        percent = appData.savingsPercent;
+    }
+    savingsPercentInp.value = percent;
+    
+    appData.savingsPercent = (isNumeric(percent)) ? +percent : undefined;
+    setSavingsResult.call(appData);
 });
 
 function setSavingsResult() {
-    appData.countSavings();
+    this.countSavings();
     
-    if (appData.savings && appData.savingsSum != undefined && appData.savingsPercent != undefined) {
-        monthSavingsResult.textContent = appData.monthIncome.toFixed(2);
-        yearSavingsResult.textContent = appData.yearIncome.toFixed(2);
+    if (this.savings && this.monthIncome != undefined && this.yearIncome != undefined) {
+        monthSavingsResult.textContent = this.monthIncome.toFixed(2);
+        yearSavingsResult.textContent = this.yearIncome.toFixed(2);
     } else {
         monthSavingsResult.textContent = '—';
         yearSavingsResult.textContent = '—';
     }
 }
 
-
     /****************************************************************
         Разные вспомогательные функции */
 
-function isNumeric(n) { // проверка является ли строка числом (числами также являются строки вида 1e1, 0x6f и подобные)
+/* function isNumeric(n) { // проверка является ли строка числом (числами также являются строки вида 1e1, 0x6f и подобные)
   return !isNaN(parseFloat(n)) && isFinite(n);
+} */
+function isNumeric(n) { // проверка является ли строка числом
+    return (n - 0) == n && (''+n).trim().length > 0;
 }
 
 function isContainDigit(str) {  // проверка строки на содержание в ней числа
@@ -318,7 +332,11 @@ function isContainOnlyDigits(str) {  // проверка строки на со�
 }
 
 function removeNotDigits(str, point) {
-    return str.replace(/[\D]/gi, '');
+    if (point) {
+        return str.replace(/[^\d.]/gi, '');
+    } else {
+        return str.replace(/\D/gi, '');
+    }
 }
 
 function removeNotRussianLetters(str, comma) {
