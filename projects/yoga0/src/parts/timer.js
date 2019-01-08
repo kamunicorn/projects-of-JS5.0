@@ -7,7 +7,7 @@ function addZero(digit) {
 
 function timer() {
 
-	let deadline = '2019-01-01 00:00:00';
+	let deadline = '2019-01-16 00:00:00';
 
 	function getTimeDifference(endtime) {
 		let d = Date.parse(endtime) - Date.parse(new Date());

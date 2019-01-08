@@ -37,18 +37,18 @@ function forms() {
 		form.appendChild(statusBox);
 		let formData = new FormData(form);
 
-		let formData2 = {};
+		/* let formData2 = {};
 		formInputs.forEach((inp) => {formData2[inp.name] = inp.value;});
-		formData = JSON.stringify(formData2);
-		console.log(formData);
+		formData = JSON.stringify(formData2); */
+		// console.log(formData);
 		
 		function postData(data) {
 
 			return new Promise(function(resolve, reject) {
 				let request = new XMLHttpRequest();
 				request.open('POST', 'server.php');
-				// request.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-				request.setRequestHeader('Content-Type', 'application/json; charset=utf-8');
+				request.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+				// request.setRequestHeader('Content-Type', 'application/json; charset=utf-8');
 				
 				request.onreadystatechange = function() {
 					if (request.readyState < 4) {
