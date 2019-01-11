@@ -81,7 +81,7 @@ function forms() {
 
 		// verify and reset telephone str
 
-	let phoneInputs = document.querySelectorAll('input[type=tel]')
+	let phoneInputs = document.querySelectorAll('input[type=tel]');
 	// console.log(phoneInputs);
 
 	phoneInputs.forEach(function(input) {
