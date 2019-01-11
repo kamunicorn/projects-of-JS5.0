@@ -1,5 +1,6 @@
 "use strict";
-    // countdown timer
+
+// countdown timer
 
 function addZero(digit) {
 	return (digit < 10) ? '0' + digit : '' + digit;
