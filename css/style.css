@@ -503,6 +503,12 @@ textarea:focus {
 	display: none;
 }*/
 /*/test*/
+.hide {
+  display: none;
+}
+.show {
+  display: block;
+}
 /*Decoration*/
 .decoration {
   padding: 8rem 0;
