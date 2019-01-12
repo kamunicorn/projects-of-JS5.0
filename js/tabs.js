@@ -1,66 +1,69 @@
 "use strict";
+let decorArray = [ 'internal', 'external', 'rising', 'roof' ];
 
     // tabs switching
 document.addEventListener('DOMContentLoaded', () => {
 
-    let headerOfTabs = document.querySelector('.decoration_slider'),
-        tabs = headerOfTabs.querySelectorAll('.decoration_item'),
-        tabContent = document.querySelectorAll('.decoration_content_item'),
-        tabCounter = 0;
-        // tabCounter используется как индекс предыдущего таба
-    /* tabContent[0] = decorContent.querySelector('.internal');
-    tabContent[1] = decorContent.querySelector('.external');
-    tabContent[2] = decorContent.querySelector('.rising');
-    tabContent[3] = decorContent.querySelector('.roof'); */
+    let tabsContainer = document.querySelector('.decoration_slider'),
+        tabs = tabsContainer.querySelectorAll('.decoration_item'),
+        decorContent = document.querySelector('.decoration_content'),
+        tabContent = [],
+        tabIndex = 0, // используется (?) как индекс предыдущего таба
+        previousTab = tabs[tabIndex]; // используется как предыдущий таб
+    
+    decorArray.forEach( (decor) => {tabContent[decor] = decorContent.querySelector('.' + decor);} );
+    
+    hideTabs();
+    showTab(tabs[tabIndex], Object.keys(tabContent)[tabIndex]);
 
-    for (let i = 0; i < tabContent.length; i++) {
-        hideTab(i);
-    }
-    showTab(tabCounter);
-
-    headerOfTabs.addEventListener('click', function(e) {
+    tabsContainer.addEventListener('click', function(e) {
         let target = e.target,
             parent = (target.tagName == 'A') ? target.parentElement.parentElement :
-            target.parentElement,
-            siblings = parent.parentElement.childNodes;
+            target.parentElement;
+        /* console.log(target);
         console.log(parent);
-        console.log(siblings);
-        
-        /* console.log(parent.parentElement);
-        console.log(parent.parentElement.children);
-        console.log(parent.parentElement.childNodes);
         console.log('.'); */
-        if (parent.classList.contains('decoration_item')) {
-            // if (siblings.length == tabs.length) {}
-            for (let i = 0; i < tabs.length; i++) {
-                // if (parent == tabs[i] && tabContent[i].style.display == "none") {
-                /* console.log(tabs[i]);
-                console.log(parent == tabs[i]); */
-                if (parent == tabs[i]) {
-                    switchTab(i);
-                    tabCounter = i;
-                    break;
-                }
-            }
+        
+        if (parent.classList.contains('decoration_item') && previousTab != parent) {
+            switchTab.call(parent);
+            previousTab = parent;
         }
     });
 
-    function switchTab(n) {
-        if (n != tabCounter) {
-            showTab(n);
-            hideTab(tabCounter);
+    function switchTab() {
+        let currentTab = this,
+            currentKey,
+            previousKey;
+
+        decorArray.forEach( (item) => {
+            if (this.querySelector('.decoration_link').classList.contains(item + '_link')) {
+                currentKey = item;
+            }
+            if (previousTab.querySelector('.decoration_link').classList.contains(item + '_link')) {
+                previousKey = item;
+            }
+        });
+
+        // console.log(previousKey);
+        if (currentKey != previousKey) {
+            hideTabs();
         }
+        showTab(currentTab, currentKey);
     }
 
-    function showTab(n) {
-        tabContent[n].classList.add('show');
-        tabContent[n].classList.remove('hide');
-        tabs[n].querySelector('.decoration_link').classList.add('after_click');
+    function showTab(tab, key) {
+        tab.querySelector('.decoration_link').classList.add('after_click');
+        tabContent[key].classList.add('show');
+        tabContent[key].classList.remove('hide');
     }
 
-    function hideTab(n) {
-        tabContent[n].classList.add('hide');
-        tabContent[n].classList.remove('show');
-        tabs[n].querySelector('.decoration_link').classList.remove('after_click');
+    function hideTabs() {
+        decorArray.forEach( (key) => {
+            tabContent[key].classList.add('hide');
+            tabContent[key].classList.remove('show');
+        } );
+        document.querySelectorAll('.decoration_link').forEach( (item) => {
+            item.classList.remove('after_click');
+        });
     }
 });
