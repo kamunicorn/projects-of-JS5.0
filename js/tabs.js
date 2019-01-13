@@ -78,7 +78,7 @@ let arrayForTabs = {
     
     tabContent = glazing.querySelectorAll('.glazing_content');
     // glazingArray.forEach( (item) => {tabContent[glazingArray.indexOf(item)] = glazing.querySelector('.' + item);} );
-    console.log(tabContent);
+    // console.log(tabContent);
     // glazingArray.forEach( (item) => {tabContent[item] = glazing.querySelector('.glazing_content.' + item);} );
     
     tabsName = 'glazing';
@@ -147,7 +147,6 @@ let arrayForTabs = {
 });
 
 function showElem() {
-    console.log(this);
     this.style.display = 'block';
 }
 

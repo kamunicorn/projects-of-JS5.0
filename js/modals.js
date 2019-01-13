@@ -43,7 +43,6 @@ function showPopup(classPopup) {
 }
 
 function showElem() {
-    console.log(this);
     this.style.display = 'block';
 }
 
