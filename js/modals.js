@@ -11,20 +11,21 @@ document.addEventListener('DOMContentLoaded', () => {
     linksToCall.forEach( (link) => {
         link.addEventListener('click', (e) => {
             e.preventDefault();
-            showPopup();
+            showPopup('popup');
         });
     });
 
     let linkToCallEngineer = document.querySelector('.popup_engineer_btn');
     linkToCallEngineer.addEventListener('click', () => {
-        showPopupEngineer();
+        showPopup('popup_engineer');
     });
 
 });
 
+    // popup_engineer - модальное окно для вызова замерщика
     // popup - модальное окно для звонка
-function showPopup() {
-    let popup = document.querySelector('.popup'),
+function showPopup(classPopup) {
+    let popup = document.querySelector('.' + classPopup),
         close = popup.querySelector('.popup_close');
 
     showElemBlock.call(popup);
@@ -32,17 +33,12 @@ function showPopup() {
     close.addEventListener('click', () => {
         hideElem.call(popup);
     });
-}
 
-    // popup_engineer - модальное окно для вызова замерщика
-function showPopupEngineer() {
-    let popup = document.querySelector('.popup_engineer'),
-        close = popup.querySelector('.popup_close');
-
-    showElemBlock.call(popup);
-
-    close.addEventListener('click', () => {
-        hideElem.call(popup);
+    popup.addEventListener('click', function(event) {
+        let e = event || window.event;
+        if (e.target == this) {
+            hideElem.call(popup);
+        }
     });
 }
 

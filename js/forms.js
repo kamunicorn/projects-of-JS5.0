@@ -4,24 +4,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // проверка полей всех форм на странице
 
-    document.addEventListener('input', (e) => {
-        let inp = e.target;
-        
-        if (inp.name == 'user_phone') {
-            inp.value = verifyTelephone(inp.value);
-        }
-        if (inp.name == 'user_name') {
-            inp.value = removeNotLetters(inp.value);
-        }
-        if (inp.id == 'height') {
-            inp.value = removeNotDigits(inp.value);
-        }
-        if (inp.id == 'weight') {
-            inp.value = removeNotDigits(inp.value);
-        }
-    });
-
-    /* let inputs = document.querySelectorAll('input');
+    let inputs = document.querySelectorAll('input');
     // console.log(inputs);
     inputs.forEach( (inp) => {
         if (inp.name == 'user_phone') {
@@ -44,7 +27,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 this.value = removeNotDigits(this.value);
             });
         }
-    }); */
+    });
 
 /*     let phoneInputs = document.querySelectorAll('input[name=user_phone]'),
         nameInputs = document.querySelectorAll('input[name=user_name]');

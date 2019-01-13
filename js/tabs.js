@@ -53,15 +53,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function showTab(tab, key) {
         tab.querySelector('.decoration_link').classList.add('after_click');
-        tabContent[key].classList.add('show');
-        tabContent[key].classList.remove('hide');
+        tabContent[key].style.display = 'block';
+        /* tabContent[key].classList.add('show');
+        tabContent[key].classList.remove('hide'); */
     }
 
     function hideTabs() {
-        decorArray.forEach( (key) => {
-            tabContent[key].classList.add('hide');
-            tabContent[key].classList.remove('show');
-        } );
+        decorArray.forEach( (key) => {tabContent[key].style.display = 'none';} );
         document.querySelectorAll('.decoration_link').forEach( (item) => {
             item.classList.remove('after_click');
         });
