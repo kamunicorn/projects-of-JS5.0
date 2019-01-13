@@ -28,7 +28,7 @@ function showPopup(classPopup) {
     let popup = document.querySelector('.' + classPopup),
         close = popup.querySelector('.popup_close');
 
-    showElemBlock.call(popup);
+    showElem.call(popup);
 
     close.addEventListener('click', () => {
         hideElem.call(popup);
@@ -42,7 +42,8 @@ function showPopup(classPopup) {
     });
 }
 
-function showElemBlock() {
+function showElem() {
+    console.log(this);
     this.style.display = 'block';
 }
 

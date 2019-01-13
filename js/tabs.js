@@ -1,36 +1,33 @@
 "use strict";
 let decorArray = [ 'internal', 'external', 'rising', 'roof' ];
 
-    // tabs switching
+    // decoration tabs switching
 document.addEventListener('DOMContentLoaded', () => {
 
-    let tabsContainer = document.querySelector('.decoration_slider'),
-        tabs = tabsContainer.querySelectorAll('.decoration_item'),
-        decorContent = document.querySelector('.decoration_content'),
-        tabContent = [],
-        tabIndex = 0, // используется (?) как индекс предыдущего таба
-        previousTab = tabs[tabIndex]; // используется как предыдущий таб
+    let tabsDecorBox = document.querySelector('.decoration_slider'),
+        tabsDecor = tabsDecorBox.querySelectorAll('.decoration_item'),
+        decorContentBox = document.querySelector('.decoration_content'),
+        tabDecorContent = [],
+        decorIndex = 0, // используется (?) как индекс первого таба
+        prevTabDecor = tabsDecor[decorIndex]; // используется как предыдущий таб
     
-    decorArray.forEach( (decor) => {tabContent[decor] = decorContent.querySelector('.' + decor);} );
+    decorArray.forEach( (item) => {tabDecorContent[item] = decorContentBox.querySelector('.' + item);} );
     
-    hideTabs();
-    showTab(tabs[tabIndex], Object.keys(tabContent)[tabIndex]);
+    hideTabsDecor();
+    showTabDecor(tabsDecor[decorIndex], Object.keys(tabDecorContent)[decorIndex]);
 
-    tabsContainer.addEventListener('click', function(e) {
+    tabsDecorBox.addEventListener('click', function(e) {
         let target = e.target,
             parent = (target.tagName == 'A') ? target.parentElement.parentElement :
             target.parentElement;
-        /* console.log(target);
-        console.log(parent);
-        console.log('.'); */
         
-        if (parent.classList.contains('decoration_item') && previousTab != parent) {
-            switchTab.call(parent);
-            previousTab = parent;
+        if (parent.classList.contains('decoration_item') && prevTabDecor != parent) {
+            switchTabDecor.call(parent);
+            prevTabDecor = parent;
         }
     });
 
-    function switchTab() {
+    function switchTabDecor() {
         let currentTab = this,
             currentKey,
             previousKey;
@@ -39,29 +36,121 @@ document.addEventListener('DOMContentLoaded', () => {
             if (this.querySelector('.decoration_link').classList.contains(item + '_link')) {
                 currentKey = item;
             }
-            if (previousTab.querySelector('.decoration_link').classList.contains(item + '_link')) {
+            if (prevTabDecor.querySelector('.decoration_link').classList.contains(item + '_link')) {
                 previousKey = item;
             }
         });
 
-        // console.log(previousKey);
         if (currentKey != previousKey) {
-            hideTabs();
+            hideTabsDecor();
         }
-        showTab(currentTab, currentKey);
+        showTabDecor(currentTab, currentKey);
     }
 
-    function showTab(tab, key) {
+    function showTabDecor(tab, key) {
         tab.querySelector('.decoration_link').classList.add('after_click');
-        tabContent[key].style.display = 'block';
-        /* tabContent[key].classList.add('show');
-        tabContent[key].classList.remove('hide'); */
+        showElem.call(tabDecorContent[key]);
     }
 
-    function hideTabs() {
-        decorArray.forEach( (key) => {tabContent[key].style.display = 'none';} );
+    function hideTabsDecor() {
+        decorArray.forEach( (key) => {hideElem.call(tabDecorContent[key]);} );
         document.querySelectorAll('.decoration_link').forEach( (item) => {
             item.classList.remove('after_click');
         });
     }
+
+
+    // glazing tabs switching
+
+let arrayForTabs = {
+    glazing : [ 'tree', 'aluminum', 'plastic', 'french', 'rise' ],
+    decoration : [ 'internal', 'external', 'rising', 'roof' ]
+},
+    glazingArray = [ 'tree', 'aluminum', 'plastic', 'french', 'rise' ],
+    tabsName;
+
+    let glazing = document.querySelector('.glazing'),
+        tabsContainer = glazing.querySelector('.glazing_slider'),
+        tabs = tabsContainer.querySelectorAll('.glazing_block'),
+        tabContent = [],
+        tabIndex = 0, // используется (?) как индекс первого таба
+        previousTab = tabs[tabIndex]; // используется как предыдущий таб
+    
+    tabContent = glazing.querySelectorAll('.glazing_content');
+    // glazingArray.forEach( (item) => {tabContent[glazingArray.indexOf(item)] = glazing.querySelector('.' + item);} );
+    console.log(tabContent);
+    // glazingArray.forEach( (item) => {tabContent[item] = glazing.querySelector('.glazing_content.' + item);} );
+    
+    tabsName = 'glazing';
+    hideTabs();
+    showTab(tabs[tabIndex], tabContent[tabIndex]);
+    /* Object.keys(arrayForTabs).forEach( (item) => {
+        tabsName = item;
+        arrayForTabs[tabsName].forEach( (k) => {tabContent[k] = glazing.querySelector(`.${tabsName}_content.` + k);} );
+        hideTabs();
+        showTab(tabs[tabIndex], Object.keys(tabContent)[tabIndex]);
+    }); */
+    
+    tabsContainer.addEventListener('click', function(e) {
+        let target = e.target,
+            parent = (target.tagName == 'A' || target.tagName == 'IMG') ? target.parentElement :
+            target;
+        
+        if (parent.classList.contains('glazing_block') && previousTab != parent) {
+            tabsName = 'glazing';
+            switchTab.call(parent);
+            previousTab = parent;
+        }
+    });
+
+    function switchTab() {
+        let currentTab = this,
+            /* currentKey,
+            previousKey, */
+            currentIndex,
+            prevIndex;
+
+        /* arrayForTabs[tabsName].forEach( (item) => {
+            if (this.querySelector(`.${tabsName}_link`).classList.contains(item + '_link')) {
+                currentKey = item;
+            }
+            if (previousTab.querySelector(`.${tabsName}_link`).classList.contains(item + '_link')) {
+                previousKey = item;
+            }
+        }); */
+        glazingArray.forEach( (item, index) => {
+            if (this.querySelector(`.${tabsName}_link`).classList.contains(item + '_link')) {
+                currentIndex = index;
+            }
+            if (previousTab.querySelector(`.${tabsName}_link`).classList.contains(item + '_link')) {
+                prevIndex = index;
+            }
+        });
+
+        if (currentIndex != prevIndex) {
+            hideTabs();
+        }
+        showTab(currentTab, tabContent[currentIndex]);
+    }
+
+    function showTab(tab, content) {
+        tab.querySelector(`.${tabsName}_link`).classList.add('active');
+        showElem.call(content);
+    }
+
+    function hideTabs() {
+        tabContent.forEach( (item) => {hideElem.call(item);} );
+        tabs.forEach( (item) => {
+            item.querySelector(`.${tabsName}_link`).classList.remove('active');
+        });
+    }
 });
+
+function showElem() {
+    console.log(this);
+    this.style.display = 'block';
+}
+
+function hideElem() {
+    this.style.display = 'none';
+}
