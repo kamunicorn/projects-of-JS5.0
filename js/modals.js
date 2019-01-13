@@ -24,9 +24,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // popup_engineer - модальное окно для вызова замерщика
     // popup - модальное окно для звонка
-function showPopup(classPopup) {
-    let popup = document.querySelector('.' + classPopup),
-        close = popup.querySelector('.popup_close');
+function showPopup(popupClass) {
+    let popup = document.querySelector('.' + popupClass),
+        close = popup.querySelector(`.${popupClass}_close`);
 
     showElem.call(popup);
 
