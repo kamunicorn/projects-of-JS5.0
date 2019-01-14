@@ -48,7 +48,7 @@ function openCalcStart() {
         windowImgsBig[i].style.display = 'none';
     }
 
-    dim.form = 1;   // тип балкона (в верстке нумерация с 1)
+    dim.form_window = 1;   // тип балкона (в верстке нумерация с 1)
     windowImgs[0].classList.add('do_image_more');
     windowImgsBig[0].style.display = 'inline-block';
     
@@ -78,7 +78,7 @@ function openCalcStart() {
 
         if (target.tagName == 'IMG') {
             let i = +removeNotDigits(target.className) - 1;
-            dim.form = i + 1;
+            dim.form_window = i + 1;
             target.classList.add('do_image_more');
             windowImgs[prev].classList.remove('do_image_more');
 
@@ -130,13 +130,11 @@ function openCalcProfile() {
 
 function openCalcEnd() {
     let calcPopupEnd = document.querySelector('.popup_calc_end'),
-        form = calcPopupEnd.querySelector('form'),
-        btnSubmit = calcPopupEnd.querySelector('button[type=submit]');
-    console.log(form);
-
+        form = calcPopupEnd.querySelector('form');
+    
     form.addEventListener('submit', function(e) {
         e.preventDefault();
-        submitForm.call(this);
+        submitForm.call(this, calcObj);
     });
 
 }
