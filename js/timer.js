@@ -2,10 +2,6 @@
 
 // countdown timer
 
-function addZero(digit) {
-	return (digit < 10) ? '0' + digit : '' + digit;
-}
-
 document.addEventListener('DOMContentLoaded', () => {
 
 	let deadline = '2019-01-18 00:00:00';

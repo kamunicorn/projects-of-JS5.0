@@ -145,11 +145,3 @@ let arrayForTabs = {
         });
     }
 });
-
-function showElem() {
-    this.style.display = 'block';
-}
-
-function hideElem() {
-    this.style.display = 'none';
-}

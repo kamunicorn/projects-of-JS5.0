@@ -4,7 +4,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // проверка полей всех форм на странице
 
-    let inputs = document.querySelectorAll('input');
+    /* let inputs = document.querySelectorAll('input');
     // console.log(inputs);
     inputs.forEach( (inp) => {
         if (inp.name == 'user_phone') {
@@ -27,9 +27,11 @@ document.addEventListener('DOMContentLoaded', () => {
                 this.value = removeNotDigits(this.value);
             });
         }
-    });
+    }); */
 
-/*     let phoneInputs = document.querySelectorAll('input[name=user_phone]'),
+        // проверка инпутов для телефона и имени
+
+    let phoneInputs = document.querySelectorAll('input[name=user_phone]'),
         nameInputs = document.querySelectorAll('input[name=user_name]');
         
     phoneInputs.forEach( (inp) => {
@@ -43,14 +45,6 @@ document.addEventListener('DOMContentLoaded', () => {
             this.value = removeNotLetters(this.value);
         });
     });
-
-    document.getElementById('height').addEventListener('input', function() {
-        this.value = removeNotDigits(this.value);
-    });
-
-    document.getElementById('width').addEventListener('input', function() {
-        this.value = removeNotDigits(this.value);
-    }); */
 
     
         // Submit form
@@ -121,17 +115,4 @@ function submitForm() {
     
     formInputs.forEach( (input) => input.value = '' );
     setTimeout(() => statusBox.remove(), 3000);
-}
-
-function verifyTelephone(str) {
-	let s = removeNotDigits(str);
-	return (s == '') ? '' : s;
-}
-
-function removeNotDigits(str) {
-	return str.replace(/[\D]/gi, '');
-}
-
-function removeNotLetters(str) {
-    return str.replace(/[^a-zа-яё]/gi, '');
 }
