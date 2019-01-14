@@ -15,6 +15,21 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
+    ['popup_calc', 'popup_calc_profile', 'popup_calc_end'].forEach( (popupClass) => {
+        let popup = document.querySelector('.' + popupClass),
+            close = popup.querySelector(`.${popupClass}_close`);
+    
+        close.addEventListener('click', () => {
+            calcObj = {};
+        });
+        popup.addEventListener('click', function(event) {
+            let e = event || window.event;
+            if (e.target == this) {
+                calcObj = {};
+            }
+        });
+    });    
+
 });
 
 function openCalcStart() {
@@ -28,13 +43,12 @@ function openCalcStart() {
         windowImgsBig = calcPopup.querySelectorAll('.big_img img'),
         dim = {};    // dimension - размеры балкона width, height
     
-    howToCleanCalcObj('popup_calc');
-
     for (let i = 0; i < windowImgs.length; i++) {
         windowImgs[i].classList.remove('do_image_more');
         windowImgsBig[i].style.display = 'none';
     }
 
+    dim.form = 1;   // тип балкона (в верстке нумерация с 1)
     windowImgs[0].classList.add('do_image_more');
     windowImgsBig[0].style.display = 'inline-block';
     
@@ -64,6 +78,7 @@ function openCalcStart() {
 
         if (target.tagName == 'IMG') {
             let i = +removeNotDigits(target.className) - 1;
+            dim.form = i + 1;
             target.classList.add('do_image_more');
             windowImgs[prev].classList.remove('do_image_more');
 
@@ -75,7 +90,6 @@ function openCalcStart() {
 
     buttonNext.addEventListener('click', () => {
         calcObj = dim;
-
         closePopup(calcPopup);
         showPopup('popup_calc_profile');
         openCalcProfile();
@@ -88,10 +102,10 @@ function openCalcProfile() {
         checkWarm = calcPopupProfile.querySelectorAll('input')[1],
         buttonNext = calcPopupProfile.getElementsByClassName('popup_calc_profile_button')[0];
 
-    howToCleanCalcObj('popup_calc_profile');
-
     checkCold.checked = false;
     checkWarm.checked = false;
+    document.getElementById('view_type').selectedIndex = 0;
+
     buttonNext.setAttribute('disabled', true);
 
     checkCold.addEventListener('click', () => {
@@ -106,27 +120,24 @@ function openCalcProfile() {
     buttonNext.addEventListener('click', () => {
         calcObj.thermal = (checkCold.checked) ? 'cold' : 
             (checkWarm.checked) ? 'warm' : 'default';
-        // calcObj.cold = checkCold.checked;
-        // calcObj.warm = checkWarm.checked;
-        calcObj.material = document.getElementById('view_type').value;
+        calcObj.type = document.getElementById('view_type').value;
         console.log(calcObj);
         closePopup(calcPopupProfile);
         showPopup('popup_calc_end');
-        openCalcProfile();
+        openCalcEnd();
     });
 }
 
-function howToCleanCalcObj(popupClass) {
-    let popup = document.querySelector('.' + popupClass),
-        close = popup.querySelector(`.${popupClass}_close`);
+function openCalcEnd() {
+    let calcPopupEnd = document.querySelector('.popup_calc_end'),
+        form = calcPopupEnd.querySelector('form'),
+        btnSubmit = calcPopupEnd.querySelector('button[type=submit]');
+    console.log(form);
 
-    close.addEventListener('click', () => {
-        calcObj = {};
+    form.addEventListener('submit', function(e) {
+        e.preventDefault();
+        submitForm.call(this);
     });
-    popup.addEventListener('click', (event) => {
-        let e = event || window.event;
-        if (e.target == this) {
-            calcObj = {};
-        }
-    });
+
 }
+

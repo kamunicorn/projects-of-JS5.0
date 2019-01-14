@@ -2,33 +2,6 @@
 
 document.addEventListener('DOMContentLoaded', () => {
 
-        // проверка полей всех форм на странице
-
-    /* let inputs = document.querySelectorAll('input');
-    // console.log(inputs);
-    inputs.forEach( (inp) => {
-        if (inp.name == 'user_phone') {
-            inp.addEventListener('input', function() {
-                this.value = verifyTelephone(this.value);
-            });
-        }
-        if (inp.name == 'user_name') {
-            inp.addEventListener('input', function() {
-                this.value = removeNotLetters(this.value);
-            });
-        }
-        if (inp.id == 'height') {
-            inp.addEventListener('input', function() {
-                this.value = removeNotDigits(this.value);
-            });
-        }
-        if (inp.id == 'weight') {
-            inp.addEventListener('input', function() {
-                this.value = removeNotDigits(this.value);
-            });
-        }
-    }); */
-
         // проверка инпутов для телефона и имени
 
     let phoneInputs = document.querySelectorAll('input[name=user_phone]'),

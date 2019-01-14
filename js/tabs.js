@@ -2,6 +2,7 @@
 let decorArray = [ 'internal', 'external', 'rising', 'roof' ];
 
     // decoration tabs switching
+
 document.addEventListener('DOMContentLoaded', () => {
 
     let tabsDecorBox = document.querySelector('.decoration_slider'),
@@ -49,6 +50,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function showTabDecor(tab, key) {
         tab.querySelector('.decoration_link').classList.add('after_click');
+        // tab.querySelector('.decoration_link a').add('after_click');
         showElem.call(tabDecorContent[key]);
     }
 
