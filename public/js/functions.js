@@ -62,13 +62,13 @@ function submitForm(data) {
     let formInputs = this.querySelectorAll('input'),
         statusBox = document.createElement('div');
 
-    console.log(data);
     statusBox.classList.add('status');
     this.appendChild(statusBox);
     let formData = new FormData(this);
 
          // append JSON Object to FormData
     if (data) {
+        console.log(data);
         for (let key in data) {
             formData.append(key, data[key]);
         }
