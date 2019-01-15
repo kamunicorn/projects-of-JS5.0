@@ -68,7 +68,7 @@ function submitForm(data) {
 
          // append JSON Object to FormData
     if (data) {
-        console.log(data);
+        // console.log(data);
         for (let key in data) {
             formData.append(key, data[key]);
         }

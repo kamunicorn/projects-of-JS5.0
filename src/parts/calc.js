@@ -122,7 +122,6 @@ function openCalcProfile() {
         calcObj.thermal = (checkCold.checked) ? 'cold' : 
             (checkWarm.checked) ? 'warm' : 'default';
         calcObj.type = document.getElementById('view_type').value;
-        console.log(calcObj);
         closePopup(calcPopupProfile);
         showPopup('popup_calc_end');
         openCalcEnd();
@@ -133,10 +132,18 @@ function openCalcEnd() {
     let calcPopupEnd = document.querySelector('.popup_calc_end'),
         form = calcPopupEnd.querySelector('form');
     
-    form.addEventListener('submit', function(e) {
+    form.onsubmit = function(e) {
+        console.log(calcObj);
         e.preventDefault();
         submitForm.apply(this, [calcObj]);
-    });
+        calcObj = {};
+    };
+    /* form.addEventListener('submit', function(e) {
+        console.log(calcObj);
+        e.preventDefault();
+        submitForm.apply(this, [calcObj]);
+        calcObj = {};
+    }); */
 
 }
 }
