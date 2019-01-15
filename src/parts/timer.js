@@ -1,8 +1,8 @@
-"use strict";
 
 // countdown timer
 
 function timer() {
+"use strict";
 document.addEventListener('DOMContentLoaded', () => {
 
 	let deadline = '2019-01-18 00:00:00';

@@ -1,6 +1,6 @@
-"use strict";
 
 function images() {
+"use strict";
 document.addEventListener('DOMContentLoaded', () => {
     let imagesBox = document.querySelector('.works .row'),
         overlay = document.querySelector('.overlay');
@@ -8,10 +8,12 @@ document.addEventListener('DOMContentLoaded', () => {
     imagesBox.addEventListener('click', (e) => {
         e.preventDefault();
         let target = e.target;
+
         if (target.tagName == 'IMG') {
             let bigImage = document.createElement('img');
     
             bigImage.setAttribute('src', target.parentElement.href);
+            // bigImage.classList.add('myimage');
                 
             overlay.appendChild(bigImage);
             overlay.style.display = 'block';

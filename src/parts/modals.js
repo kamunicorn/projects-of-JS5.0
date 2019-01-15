@@ -1,6 +1,5 @@
-"use strict";
-
 function modals() {
+"use strict";
 document.addEventListener('DOMContentLoaded', () => {
     
         // popup_engineer - модальное окно для вызова замерщика

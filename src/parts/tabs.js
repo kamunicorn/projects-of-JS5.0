@@ -1,154 +1,93 @@
-"use strict";
 
 function tabs() {
-let decorArray = [ 'internal', 'external', 'rising', 'roof' ];
+    "use strict";
 
-    // decoration tabs switching
-
-document.addEventListener('DOMContentLoaded', () => {
-
-    let tabsDecorBox = document.querySelector('.decoration_slider'),
-        tabsDecor = tabsDecorBox.querySelectorAll('.decoration_item'),
-        decorContentBox = document.querySelector('.decoration_content'),
-        tabDecorContent = [],
-        decorIndex = 0, // используется (?) как индекс первого таба
-        prevTabDecor = tabsDecor[decorIndex]; // используется как предыдущий таб
+    let tabsArray = {
+        glazing: {
+            type: [ 'tree', 'aluminum', 'plastic', 'french', 'rise' ],
+            activeClassName: 'active'
+        },
+        decoration: {
+            type: [ 'internal', 'external', 'rising', 'roof' ],
+            activeClassName: 'after_click'
+        }
+    };
     
-    decorArray.forEach( (item) => {tabDecorContent[item] = decorContentBox.querySelector('.' + item);} );
+        // decoration and glazing tabs switching
     
-    hideTabsDecor();
-    showTabDecor(tabsDecor[decorIndex], Object.keys(tabDecorContent)[decorIndex]);
-
-    tabsDecorBox.addEventListener('click', function(e) {
-        let target = e.target,
-            parent = (target.tagName == 'A') ? target.parentElement.parentElement :
-            target.parentElement;
+    document.addEventListener('DOMContentLoaded', () => {
+        let tabsNamesArray = Object.keys(tabsArray);
         
-        if (parent.classList.contains('decoration_item') && prevTabDecor != parent) {
-            switchTabDecor.call(parent);
-            prevTabDecor = parent;
-        }
+        tabsNamesArray.forEach( (tabsName) => {
+    
+            let tabsSlider = document.querySelector(`.${tabsName}_slider`),
+                sliderItems = tabsSlider.querySelectorAll(`.${tabsName}_slider_item`),
+                previousTab = sliderItems[0];
+                
+        /* console.log(tabsSlider);
+        console.log(sliderItems);
+        console.log(tabLinks);
+        console.log(tabContent);
+        console.log(contentItems);
+        console.log(previousTab);
+        console.log('.'); */
+    
+            tabsSlider.addEventListener('click', function(e) {
+                let target = e.target,
+                    parent;
+                if (tabsName == 'decoration') {
+                    parent = (target.tagName == 'A') ? target.parentElement.parentElement :
+                    target.parentElement;
+                } else if (tabsName == 'glazing') {
+                    parent = (target.tagName == 'A' || target.tagName == 'IMG') ? target.parentElement :
+                    target;
+                }
+                
+                if (parent.classList.contains(`${tabsName}_slider_item`) && parent != previousTab) {
+                    switchTab(parent, previousTab, tabsName);
+                    previousTab = parent;
+                }
+            });
+    
+        });
     });
-
-    function switchTabDecor() {
-        let currentTab = this,
-            currentKey,
-            previousKey;
-
-        decorArray.forEach( (item) => {
-            if (this.querySelector('.decoration_link').classList.contains(item + '_link')) {
-                currentKey = item;
+    
+    function switchTab(currentTab, lastTab, tabsName) {
+        let currentKey,
+            lastKey,
+            types = tabsArray[tabsName].type;
+    
+        types.forEach( (key) => {
+            if (currentTab.querySelector(`.${tabsName}_link`).classList.contains(`${key}_link`)) {
+                currentKey = key;
             }
-            if (prevTabDecor.querySelector('.decoration_link').classList.contains(item + '_link')) {
-                previousKey = item;
+            if (lastTab.querySelector(`.${tabsName}_link`).classList.contains(`${key}_link`)) {
+                lastKey = key;
             }
         });
-
-        if (currentKey != previousKey) {
-            hideTabsDecor();
-        }
-        showTabDecor(currentTab, currentKey);
-    }
-
-    function showTabDecor(tab, key) {
-        tab.querySelector('.decoration_link').classList.add('after_click');
-        // tab.querySelector('.decoration_link a').add('after_click');
-        showElem.call(tabDecorContent[key]);
-    }
-
-    function hideTabsDecor() {
-        decorArray.forEach( (key) => {hideElem.call(tabDecorContent[key]);} );
-        document.querySelectorAll('.decoration_link').forEach( (item) => {
-            item.classList.remove('after_click');
-        });
-    }
-
-
-    // glazing tabs switching
-
-let arrayForTabs = {
-    glazing : [ 'tree', 'aluminum', 'plastic', 'french', 'rise' ],
-    decoration : [ 'internal', 'external', 'rising', 'roof' ]
-},
-    glazingArray = [ 'tree', 'aluminum', 'plastic', 'french', 'rise' ],
-    tabsName;
-
-    let glazing = document.querySelector('.glazing'),
-        tabsContainer = glazing.querySelector('.glazing_slider'),
-        tabs = tabsContainer.querySelectorAll('.glazing_block'),
-        tabContent = [],
-        tabIndex = 0, // используется (?) как индекс первого таба
-        previousTab = tabs[tabIndex]; // используется как предыдущий таб
     
-    tabContent = glazing.querySelectorAll('.glazing_content');
-    // glazingArray.forEach( (item) => {tabContent[glazingArray.indexOf(item)] = glazing.querySelector('.' + item);} );
-    // console.log(tabContent);
-    // glazingArray.forEach( (item) => {tabContent[item] = glazing.querySelector('.glazing_content.' + item);} );
-    
-    tabsName = 'glazing';
-    hideTabs();
-    showTab(tabs[tabIndex], tabContent[tabIndex]);
-    /* Object.keys(arrayForTabs).forEach( (item) => {
-        tabsName = item;
-        arrayForTabs[tabsName].forEach( (k) => {tabContent[k] = glazing.querySelector(`.${tabsName}_content.` + k);} );
-        hideTabs();
-        showTab(tabs[tabIndex], Object.keys(tabContent)[tabIndex]);
-    }); */
-    
-    tabsContainer.addEventListener('click', function(e) {
-        let target = e.target,
-            parent = (target.tagName == 'A' || target.tagName == 'IMG') ? target.parentElement :
-            target;
-        
-        if (parent.classList.contains('glazing_block') && previousTab != parent) {
-            tabsName = 'glazing';
-            switchTab.call(parent);
-            previousTab = parent;
+        if (currentKey != lastKey) {
+            hideTabs(tabsName);
         }
-    });
-
-    function switchTab() {
-        let currentTab = this,
-            /* currentKey,
-            previousKey, */
-            currentIndex,
-            prevIndex;
-
-        /* arrayForTabs[tabsName].forEach( (item) => {
-            if (this.querySelector(`.${tabsName}_link`).classList.contains(item + '_link')) {
-                currentKey = item;
-            }
-            if (previousTab.querySelector(`.${tabsName}_link`).classList.contains(item + '_link')) {
-                previousKey = item;
-            }
-        }); */
-        glazingArray.forEach( (item, index) => {
-            if (this.querySelector(`.${tabsName}_link`).classList.contains(item + '_link')) {
-                currentIndex = index;
-            }
-            if (previousTab.querySelector(`.${tabsName}_link`).classList.contains(item + '_link')) {
-                prevIndex = index;
-            }
-        });
-
-        if (currentIndex != prevIndex) {
-            hideTabs();
-        }
-        showTab(currentTab, tabContent[currentIndex]);
+        showTab(currentTab, tabsName, currentKey);
     }
-
-    function showTab(tab, content) {
-        tab.querySelector(`.${tabsName}_link`).classList.add('active');
+    
+    function hideTabs(tabsName) {
+        let contentItems = document.querySelectorAll(`.${tabsName}_content_item`),
+            tabLinks = document.querySelectorAll(`.${tabsName}_link`);
+    
+        contentItems.forEach( (content) => {hideElem.call(content);} );
+        tabLinks.forEach( (link) => {
+            link.classList.remove(tabsArray[tabsName].activeClassName);
+        } );
+    }
+    
+    function showTab(tab, tabsName, contentKey) {
+        let tabLink = tab.querySelector(`.${contentKey}_link`),
+            content = document.querySelector(`.${tabsName}_content_item.${contentKey}`);
+        tabLink.classList.add(tabsArray[tabsName].activeClassName);
         showElem.call(content);
     }
-
-    function hideTabs() {
-        tabContent.forEach( (item) => {hideElem.call(item);} );
-        tabs.forEach( (item) => {
-            item.querySelector(`.${tabsName}_link`).classList.remove('active');
-        });
-    }
-});
 }
 
 module.exports = tabs;

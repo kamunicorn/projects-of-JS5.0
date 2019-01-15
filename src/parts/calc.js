@@ -135,7 +135,7 @@ function openCalcEnd() {
     
     form.addEventListener('submit', function(e) {
         e.preventDefault();
-        submitForm.call(this, calcObj);
+        submitForm.apply(this, [calcObj]);
     });
 
 }

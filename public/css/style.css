@@ -373,17 +373,17 @@ textarea:focus {
   padding: 8rem 0;
 }
 
-.glazing_block {
+.glazing_block, .glazing_slider_item {
   display: inline-block;
 }
 
-.glazing_block img {
+.glazing_block img, .glazing_slider_item img {
   display: block;
   margin: 0 auto;
   margin-bottom: 2rem;
 }
 
-.glazing_block a {
+.glazing_block a, .glazing_slider_item a {
   font-size: 1.8rem;
   font-weight: 600;
   text-decoration: underline;
@@ -393,7 +393,7 @@ textarea:focus {
 			}*/
 }
 
-.glazing_block a:hover {
+.glazing_block a:hover, .glazing_slider_item a:hover {
   cursor: pointer;
 }
 
@@ -498,35 +498,17 @@ textarea:focus {
   color: #454545;
 }
 
-/*test*/
-/*.tabs li {
-	display: inline-block;
-}
-.tabs .glazing_block.active  a {
-			text-decoration: none;
-			color: #454545;
-}
-.tabs_divs .noactive {
-	display: none;
-}*/
-/*/test*/
-.hide {
-  display: none;
-}
-.show {
-  display: block;
-}
 /*Decoration*/
 .decoration {
   padding: 8rem 0;
   background-color: #f7f7f7;
 }
 
-.decoration_item {
+.decoration_item, .decoration_slider_item {
   text-align: center;
 }
 
-.decoration_item a {
+.decoration_item a, .decoration_slider_item a {
   font-size: 2rem;
   font-weight: 600;
   color: #000000;
@@ -534,11 +516,11 @@ textarea:focus {
   border-bottom: 1px dotted #000000;
 }
 
-.decoration_item a:hover {
+.decoration_item a:hover, .decoration_slider_item a:hover {
   cursor: pointer;
 }
 
-.decoration_item a:focus {
+.decoration_item a:focus, .decoration_slider_item a:focus {
   border: none;
   text-decoration: none;
   color: #0089cd;
@@ -552,21 +534,21 @@ textarea:focus {
 				background: linear-gradient(180deg, #ebebeb 0%, #ebebeb 0%, rgba(255, 255, 255, 0) 100%);*/
 }
 
-.decoration_item .no_click {
+.decoration_item .no_click, .decoration_slider_item .no_click {
   /*border: 1px solid red;*/
   height: 8rem;
   padding: 2rem 0;
   border-top: 1rem solid #f7f7f7;
 }
 
-.decoration_item .after_click {
+.decoration_item .after_click, .decoration_slider_item .after_click {
   border-top: 1rem solid #0089cd;
   height: 8rem;
   padding: 2rem 0;
   background: -webkit-gradient(linear, left top, left bottom, from(#ebebeb), color-stop(0%, #ebebeb), to(rgba(255, 255, 255, 0)));
   background: linear-gradient(180deg, #ebebeb 0%, #ebebeb 0%, rgba(255, 255, 255, 0) 100%);
 }
-.decoration_item .after_click a {
+.decoration_item .after_click a, .decoration_slider_item .after_click a {
   border: none;
   text-decoration: none;
   color: #0089cd;
@@ -1180,7 +1162,7 @@ textarea:focus {
     margin-right: 2rem;
   }
 
-  .decoration_item a {
+  .decoration_item a, .decoration_slider_item a {
     font-size: 1.8rem;
   }
 
@@ -1685,7 +1667,7 @@ textarea:focus {
     padding: 3rem 0;
   }
 
-  .decoration_item a {
+  .decoration_item a, .decoration_slider_item a {
     font-size: 1.5rem;
   }
 
