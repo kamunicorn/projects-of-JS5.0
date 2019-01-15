@@ -619,20 +619,31 @@ textarea:focus {
   margin-bottom: 3rem;
 }
 
-.works a[data-fancybox="gallery"] .lupa {
-  /* position: ; */
-  top: 0;
+.works a {
+  position: relative;
+}
+/* .works a[data-fancybox="gallery"] .lupa {*/
+.works a .lupa {
+    /* было */
+  /* top: 0;
+  top: 40%;
   left: 0;
   left: 50%;
   -webkit-transform: translateX(-50%);
-  transform: translateX(-50%);
-  top: 40%;
+  transform: translateX(-50%); */
+    /* стало */
+  position: absolute;
+  top: -60%;
+  left: 50%;
+  transform: translate(-50%,0);
+  -ms-transform: translate(-50%,0);
   opacity: 0;
   -webkit-transition: ease 0.2s;
   transition: ease 0.2s;
 }
 
-.works a[data-fancybox="gallery"]:hover .lupa {
+/* .works a[data-fancybox="gallery"]:hover .lupa { */
+.works a:hover .lupa {
   opacity: 1;
 }
 
@@ -889,7 +900,16 @@ textarea:focus {
   z-index: 9;
   background-color: rgba(0, 0, 0, 0.7);
   opacity: 1;
-
+  text-align: center;
+}
+.overlay img {
+  max-width: 80%;
+  max-height: 80%;
+  position: absolute;
+  z-index: 1;
+  margin: auto;
+  margin-top: 5%;
+  top: 0; right: 0; bottom: 0; left: 0;
 }
 
 .popup_content,
