@@ -13,7 +13,6 @@ document.addEventListener('DOMContentLoaded', () => {
             let bigImage = document.createElement('img');
     
             bigImage.setAttribute('src', target.parentElement.href);
-            // bigImage.classList.add('myimage');
                 
             overlay.appendChild(bigImage);
             overlay.style.display = 'block';
