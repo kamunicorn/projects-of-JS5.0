@@ -66,29 +66,23 @@ function submitForm(data) {
     this.appendChild(statusBox);
     let formData = new FormData(this);
 
-         // append JSON Object to FormData
+         // append Object to FormData
     if (data) {
-        // console.log(data);
         for (let key in data) {
             formData.append(key, data[key]);
         }
     }
-        // Преобразование данных в json
-    /*    // FormData To JSON Object
-    let jsonToSend = (data) ? data : {};
+
+    /*    // FormData to Object
+    let json = (data) ? data : {};
     for (const [key, value]  of formData.entries()) {
-        jsonToSend[key] = value;
+        json[key] = value;
     }
-        // append FormData to JSON Object
-    if (data) {
-        for (let key in data) {
-            jsonToSend[key] = data[key];
-        }
-    }
-    let formData2 = JSON.stringify(jsonToSend);
-    console.warn('jsonToSend : formData -> JSON , append data from JSON');
-    console.log(jsonToSend);
-    console.warn('formData2 = JSON.stringify(jsonToSend) : formData -> JSON , append data from JSON');
+
+    let formData2 = JSON.stringify(json);
+    console.warn('json : formData -> JSON , append data from JSON');
+    console.log(json);
+    console.warn('formData2 = JSON.stringify(json) : formData -> JSON , append data from JSON');
     console.log(formData2);
     formData = formData2; */
     

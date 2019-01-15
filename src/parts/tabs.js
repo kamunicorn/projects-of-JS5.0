@@ -1,3 +1,4 @@
+    // Переключение табов отстекление (glazing) и отделка (decoration)
 
 function tabs() {
     "use strict";
@@ -24,14 +25,6 @@ function tabs() {
                 sliderItems = tabsSlider.querySelectorAll(`.${tabsName}_slider_item`),
                 previousTab = sliderItems[0];
                 
-        /* console.log(tabsSlider);
-        console.log(sliderItems);
-        console.log(tabLinks);
-        console.log(tabContent);
-        console.log(contentItems);
-        console.log(previousTab);
-        console.log('.'); */
-    
             tabsSlider.addEventListener('click', function(e) {
                 let target = e.target,
                     parent;

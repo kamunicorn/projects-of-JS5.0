@@ -1,12 +1,13 @@
 "use strict";
 
-    // calculator
+    // калькулятор в модальных окнах с последующей отправкой полученных данных и контактов пользователя на сервер
 
 function calc() {
+
 let calcObj = {};
-// 
 document.addEventListener('DOMContentLoaded', () => {
     
+        // кнопки Рассчитать в табах с окнами
     let calcOpenBtn = document.querySelectorAll('.glazing_price_btn');
 
     calcOpenBtn.forEach( (btn) => {
@@ -16,6 +17,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
+        // модалки калькулятора, объект calcObj должен очищаться при их закрытии
     ['popup_calc', 'popup_calc_profile', 'popup_calc_end'].forEach( (popupClass) => {
         let popup = document.querySelector('.' + popupClass),
             close = popup.querySelector(`.${popupClass}_close`);
@@ -30,7 +32,6 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
     });    
-
 });
 
 function openCalcStart() {
@@ -129,11 +130,10 @@ function openCalcProfile() {
 }
 
 function openCalcEnd() {
-    let calcPopupEnd = document.querySelector('.popup_calc_end'),
-        form = calcPopupEnd.querySelector('form');
+    // let calcPopupEnd = document.querySelector('.popup_calc_end'),
+    let form = document.querySelector('.popup_calc_end form');
     
     form.onsubmit = function(e) {
-        console.log(calcObj);
         e.preventDefault();
         submitForm.apply(this, [calcObj]);
         calcObj = {};
@@ -144,7 +144,6 @@ function openCalcEnd() {
         submitForm.apply(this, [calcObj]);
         calcObj = {};
     }); */
-
 }
 }
 

@@ -20,7 +20,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
     
-        // Submit form
+        // Submit forms
 
     let mainForms = document.querySelectorAll('.main_form'),
         popup = document.querySelector('.popup .form'),
@@ -43,7 +43,6 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
 });
-
 }
 
 module.exports = forms;

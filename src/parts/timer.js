@@ -1,7 +1,8 @@
 
-// countdown timer
+	// countdown timer
 
 function timer() {
+
 "use strict";
 document.addEventListener('DOMContentLoaded', () => {
 
